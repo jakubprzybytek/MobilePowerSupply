@@ -1,0 +1,380 @@
+EESchema Schematic File Version 2
+LIBS:power
+LIBS:device
+LIBS:switches
+LIBS:relays
+LIBS:motors
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:dc-dc
+EELAYER 25 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L LM2576T-ADJ U1
+U 1 1 59FFBEDC
+P 5050 3750
+F 0 "U1" H 4650 4100 50  0000 L CNN
+F 1 "LM2576T-ADJ" H 4650 4000 50  0000 L CNN
+F 2 "TO_SOT_Packages_THT:TO-220-5_Pentawatt_Multiwatt-5_Vertical" H 5350 3500 50  0001 C CIN
+F 3 "" H 5050 3750 50  0001 C CNN
+	1    5050 3750
+	1    0    0    -1  
+$EndComp
+$Comp
+L CP C1
+U 1 1 59FFC02B
+P 3750 3850
+F 0 "C1" H 3775 3950 50  0000 L CNN
+F 1 "100u" H 3775 3750 50  0000 L CNN
+F 2 "Capacitors_THT:CP_Radial_D8.0mm_P2.50mm" H 3788 3700 50  0001 C CNN
+F 3 "" H 3750 3850 50  0001 C CNN
+	1    3750 3850
+	1    0    0    -1  
+$EndComp
+$Comp
+L CP C2
+U 1 1 59FFC058
+P 6550 4050
+F 0 "C2" H 6575 4150 50  0000 L CNN
+F 1 "1000u" H 6575 3950 50  0000 L CNN
+F 2 "Capacitors_THT:CP_Radial_D12.5mm_P5.00mm" H 6588 3900 50  0001 C CNN
+F 3 "" H 6550 4050 50  0001 C CNN
+	1    6550 4050
+	1    0    0    -1  
+$EndComp
+$Comp
+L GNDA #PWR4
+U 1 1 59FFC0A0
+P 5050 4200
+F 0 "#PWR4" H 5050 3950 50  0001 C CNN
+F 1 "GNDA" H 5050 4050 50  0000 C CNN
+F 2 "" H 5050 4200 50  0001 C CNN
+F 3 "" H 5050 4200 50  0001 C CNN
+	1    5050 4200
+	1    0    0    -1  
+$EndComp
+$Comp
+L L_Core_Ferrite L1
+U 1 1 59FFC0EF
+P 5900 3850
+F 0 "L1" V 5850 3850 50  0000 C CNN
+F 1 "100u" V 6010 3850 50  0000 C CNN
+F 2 "Inductors_THT:L_Toroid_Vertical_L21.6mm_W8.4mm_P8.38mm_Pulse_G" H 5900 3850 50  0001 C CNN
+F 3 "" H 5900 3850 50  0001 C CNN
+	1    5900 3850
+	0    -1   -1   0   
+$EndComp
+$Comp
+L R R1
+U 1 1 59FFC12D
+P 6250 4050
+F 0 "R1" V 6330 4050 50  0000 C CNN
+F 1 "?" V 6250 4050 50  0000 C CNN
+F 2 "Resistors_SMD:R_0805" V 6180 4050 50  0001 C CNN
+F 3 "" H 6250 4050 50  0001 C CNN
+	1    6250 4050
+	1    0    0    -1  
+$EndComp
+$Comp
+L R R2
+U 1 1 59FFC170
+P 6250 4450
+F 0 "R2" V 6330 4450 50  0000 C CNN
+F 1 "1k" V 6250 4450 50  0000 C CNN
+F 2 "Resistors_SMD:R_0805" V 6180 4450 50  0001 C CNN
+F 3 "" H 6250 4450 50  0001 C CNN
+	1    6250 4450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5550 3850 5750 3850
+Wire Wire Line
+	6250 3850 6250 3900
+Wire Wire Line
+	6550 3850 6550 3900
+Connection ~ 6550 3850
+$Comp
+L GNDA #PWR7
+U 1 1 59FFC329
+P 6550 4200
+F 0 "#PWR7" H 6550 3950 50  0001 C CNN
+F 1 "GNDA" H 6550 4050 50  0000 C CNN
+F 2 "" H 6550 4200 50  0001 C CNN
+F 3 "" H 6550 4200 50  0001 C CNN
+	1    6550 4200
+	1    0    0    -1  
+$EndComp
+$Comp
+L GNDA #PWR6
+U 1 1 59FFC346
+P 6250 4600
+F 0 "#PWR6" H 6250 4350 50  0001 C CNN
+F 1 "GNDA" H 6250 4450 50  0000 C CNN
+F 2 "" H 6250 4600 50  0001 C CNN
+F 3 "" H 6250 4600 50  0001 C CNN
+	1    6250 4600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6250 4200 6250 4300
+Wire Wire Line
+	6250 4250 6100 4250
+Wire Wire Line
+	6100 4250 6100 3650
+Wire Wire Line
+	6100 3650 5550 3650
+Connection ~ 6250 4250
+Wire Wire Line
+	3750 3700 3750 3650
+Wire Wire Line
+	3400 3650 4550 3650
+$Comp
+L GNDA #PWR2
+U 1 1 59FFC406
+P 3750 4200
+F 0 "#PWR2" H 3750 3950 50  0001 C CNN
+F 1 "GNDA" H 3750 4050 50  0000 C CNN
+F 2 "" H 3750 4200 50  0001 C CNN
+F 3 "" H 3750 4200 50  0001 C CNN
+	1    3750 4200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3750 4200 3750 4000
+Wire Wire Line
+	5050 4200 5050 4050
+$Comp
+L Conn_01x02 J1
+U 1 1 59FFC4D5
+P 3200 3750
+F 0 "J1" H 3200 3850 50  0000 C CNN
+F 1 "Power IN" H 3200 3550 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm" H 3200 3750 50  0001 C CNN
+F 3 "" H 3200 3750 50  0001 C CNN
+	1    3200 3750
+	-1   0    0    1   
+$EndComp
+Connection ~ 3750 3650
+$Comp
+L GNDA #PWR1
+U 1 1 59FFC542
+P 3450 3800
+F 0 "#PWR1" H 3450 3550 50  0001 C CNN
+F 1 "GNDA" H 3450 3650 50  0000 C CNN
+F 2 "" H 3450 3800 50  0001 C CNN
+F 3 "" H 3450 3800 50  0001 C CNN
+	1    3450 3800
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3400 3750 3450 3750
+Wire Wire Line
+	3450 3750 3450 3800
+$Comp
+L Conn_01x02 J2
+U 1 1 59FFC5CF
+P 8250 3950
+F 0 "J2" H 8250 4050 50  0000 C CNN
+F 1 "Power OUT" H 8250 3750 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm" H 8250 3950 50  0001 C CNN
+F 3 "" H 8250 3950 50  0001 C CNN
+	1    8250 3950
+	1    0    0    1   
+$EndComp
+$Comp
+L GNDA #PWR10
+U 1 1 59FFC652
+P 8000 4000
+F 0 "#PWR10" H 8000 3750 50  0001 C CNN
+F 1 "GNDA" H 8000 3850 50  0000 C CNN
+F 2 "" H 8000 4000 50  0001 C CNN
+F 3 "" H 8000 4000 50  0001 C CNN
+	1    8000 4000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8000 4000 8000 3950
+Wire Wire Line
+	8000 3950 8050 3950
+$Comp
+L D_Schottky_Small D1
+U 1 1 59FFC76C
+P 5650 4050
+F 0 "D1" H 5600 4130 50  0000 L CNN
+F 1 "SSC54" H 5370 3970 50  0000 L CNN
+F 2 "Diodes_SMD:D_SMC" V 5650 4050 50  0001 C CNN
+F 3 "" V 5650 4050 50  0001 C CNN
+	1    5650 4050
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	5650 3950 5650 3850
+Connection ~ 5650 3850
+$Comp
+L GNDA #PWR5
+U 1 1 59FFC8D5
+P 5650 4200
+F 0 "#PWR5" H 5650 3950 50  0001 C CNN
+F 1 "GNDA" H 5650 4050 50  0000 C CNN
+F 2 "" H 5650 4200 50  0001 C CNN
+F 3 "" H 5650 4200 50  0001 C CNN
+	1    5650 4200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5650 4200 5650 4150
+Connection ~ 6250 3850
+Text Notes 6750 4600 0    60   ~ 0
+R1 = (Vout/1.23 - 1.0)*R2\nR1 = 5k17
+Text Notes 5700 3600 0    60   ~ 0
+L1=100u Iout>2\nL1=150u 1.3 < Iout < 2\nL1=220u 0.8 < Iout < 1.3
+Text Notes 4650 3200 0    60   ~ 0
+Iout(max) = 3A
+$Comp
+L R R3
+U 1 1 5A011A1E
+P 4350 3850
+F 0 "R3" V 4430 3850 50  0000 C CNN
+F 1 "100k" V 4350 3850 50  0000 C CNN
+F 2 "Resistors_SMD:R_0805" V 4280 3850 50  0001 C CNN
+F 3 "" H 4350 3850 50  0001 C CNN
+	1    4350 3850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4350 3650 4350 3700
+Connection ~ 4350 3650
+Wire Wire Line
+	4350 4000 4350 4100
+Wire Wire Line
+	4350 4050 4500 4050
+Wire Wire Line
+	4500 4050 4500 3850
+Wire Wire Line
+	4500 3850 4550 3850
+$Comp
+L BSS138 Q1
+U 1 1 5A0253B8
+P 4250 4300
+F 0 "Q1" H 4450 4375 50  0000 L CNN
+F 1 "IRLML0030" H 4450 4300 50  0000 L CNN
+F 2 "TO_SOT_Packages_SMD:SOT-23" H 4450 4225 50  0001 L CIN
+F 3 "" H 4250 4300 50  0001 L CNN
+	1    4250 4300
+	1    0    0    -1  
+$EndComp
+$Comp
+L GNDA #PWR3
+U 1 1 5A0254E4
+P 4350 4500
+F 0 "#PWR3" H 4350 4250 50  0001 C CNN
+F 1 "GNDA" H 4350 4350 50  0000 C CNN
+F 2 "" H 4350 4500 50  0001 C CNN
+F 3 "" H 4350 4500 50  0001 C CNN
+	1    4350 4500
+	1    0    0    -1  
+$EndComp
+Connection ~ 4350 4050
+$Comp
+L CP C3
+U 1 1 5A0259E6
+P 6850 4050
+F 0 "C3" H 6875 4150 50  0000 L CNN
+F 1 "100u(t)" H 6875 3950 50  0000 L CNN
+F 2 "Capacitors_THT:CP_Radial_D12.5mm_P5.00mm" H 6888 3900 50  0001 C CNN
+F 3 "" H 6850 4050 50  0001 C CNN
+	1    6850 4050
+	1    0    0    -1  
+$EndComp
+$Comp
+L GNDA #PWR8
+U 1 1 5A025A22
+P 6850 4200
+F 0 "#PWR8" H 6850 3950 50  0001 C CNN
+F 1 "GNDA" H 6850 4050 50  0000 C CNN
+F 2 "" H 6850 4200 50  0001 C CNN
+F 3 "" H 6850 4200 50  0001 C CNN
+	1    6850 4200
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6850 3850 6850 3900
+Connection ~ 6850 3850
+Wire Wire Line
+	6050 3850 7050 3850
+$Comp
+L L_Core_Ferrite L2
+U 1 1 5A025DE9
+P 7200 3850
+F 0 "L2" V 7150 3850 50  0000 C CNN
+F 1 "20u" V 7310 3850 50  0000 C CNN
+F 2 "Inductors_THT:L_Toroid_Vertical_L10.0mm_W5.0mm_P5.08mm" H 7200 3850 50  0001 C CNN
+F 3 "" H 7200 3850 50  0001 C CNN
+	1    7200 3850
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CP C4
+U 1 1 5A025E5B
+P 7450 4050
+F 0 "C4" H 7475 4150 50  0000 L CNN
+F 1 "100u" H 7475 3950 50  0000 L CNN
+F 2 "Capacitors_THT:CP_Radial_D12.5mm_P5.00mm" H 7488 3900 50  0001 C CNN
+F 3 "" H 7450 4050 50  0001 C CNN
+	1    7450 4050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7350 3850 8050 3850
+Wire Wire Line
+	7450 3850 7450 3900
+$Comp
+L GNDA #PWR9
+U 1 1 5A025EC7
+P 7450 4200
+F 0 "#PWR9" H 7450 3950 50  0001 C CNN
+F 1 "GNDA" H 7450 4050 50  0000 C CNN
+F 2 "" H 7450 4200 50  0001 C CNN
+F 3 "" H 7450 4200 50  0001 C CNN
+	1    7450 4200
+	1    0    0    -1  
+$EndComp
+Connection ~ 7450 3850
+$EndSCHEMATC
