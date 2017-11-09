@@ -1,4 +1,4 @@
-update=05.11.2017 20:44:34
+update=07.11.2017 21:25:16
 version=1
 last_client=kicad
 [pcbnew]
@@ -27,7 +27,7 @@ NetIExt=net
 version=1
 [eeschema]
 version=1
-LibDir=
+LibDir=D:/_ME/Rodos/KiCad Projects/KiCad-JPLibs/components
 [eeschema/libraries]
 LibName1=power
 LibName2=device
@@ -62,3 +62,4 @@ LibName30=atmel
 LibName31=contrib
 LibName32=valves
 LibName33=C:/Program Files/KiCad/share/kicad/library/dc-dc
+LibName34=myLib
