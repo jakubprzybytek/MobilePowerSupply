@@ -2037,23 +2037,23 @@ Wire Wire Line
 Wire Wire Line
 	8100 2200 8550 2200
 $Comp
-L Device:CP C?
+L Device:CP C9
 U 1 1 5BF09AEE
 P 7850 2700
-F 0 "C?" H 7875 2800 50  0000 L CNN
+F 0 "C9" H 7875 2800 50  0000 L CNN
 F 1 "47u/1-45mESR" H 7875 2600 50  0000 L CNN
-F 2 "Capacitors_Tantalum_SMD:CP_Tantalum_Case-D_EIA-7343-31_Hand" H 7888 2550 50  0001 C CNN
+F 2 "Capacitors_Tantalum_SMD:CP_Tantalum_Case-D_EIA-7343-31_Reflow" H 7888 2550 50  0001 C CNN
 F 3 "" H 7850 2700 50  0001 C CNN
 	1    7850 2700
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:CP C?
+L Device:CP C10
 U 1 1 5BF0A518
 P 8100 2700
-F 0 "C?" H 8125 2800 50  0000 L CNN
+F 0 "C10" H 8125 2800 50  0000 L CNN
 F 1 "47u/1-45mESR" H 8125 2600 50  0000 L CNN
-F 2 "Capacitors_Tantalum_SMD:CP_Tantalum_Case-D_EIA-7343-31_Hand" H 8138 2550 50  0001 C CNN
+F 2 "Capacitors_Tantalum_SMD:CP_Tantalum_Case-D_EIA-7343-31_Reflow" H 8138 2550 50  0001 C CNN
 F 3 "" H 8100 2700 50  0001 C CNN
 	1    8100 2700
 	1    0    0    -1  
