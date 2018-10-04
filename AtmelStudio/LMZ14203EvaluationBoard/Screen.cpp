@@ -34,6 +34,9 @@ void Screen::drawTemplate() {
 
 	sprintf(buffer, "Eta=");
 	GUI_print3(buffer, 20, 30, 0x66);
+
+	sprintf(buffer, "Time:");
+	GUI_print3(buffer, 0, 40, 0x66);
 }
 
 void Screen::drawElectricParams(uint16_t inVoltageValue, uint16_t inCurrentValue, uint16_t outVoltageValue, uint16_t outCurrentValue) {
@@ -60,6 +63,11 @@ void Screen::drawElectricParams(uint16_t inVoltageValue, uint16_t inCurrentValue
 	uint16_t eta = (outputPower * 1000) / inputPower;
 	sprintf(buffer, "%u.%u%% ", eta / 10, eta % 10);
 	GUI_print3(buffer, 32, 30, 0xee);
+}
+
+void Screen::drawTime(uint8_t days, uint8_t hours, uint8_t minutes, uint8_t seconds) {
+	sprintf(buffer, "%ud %uh:%02um:%02us", days, hours, minutes, seconds);
+	GUI_print3(buffer, 15, 40, 0xee);
 }
 
 void Screen::drawCounter(uint16_t count) {

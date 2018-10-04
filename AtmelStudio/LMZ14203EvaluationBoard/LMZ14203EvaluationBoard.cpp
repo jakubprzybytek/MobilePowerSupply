@@ -15,6 +15,8 @@
 #include "Tools/Timer.hpp"
 #include "Tools/Switch.hpp"
 
+#include "Peripheral/RTC.hpp"
+
 #define LED_INIT	PORTA.DIRSET = PIN6_bm
 #define LED_TOGGLE	PORTA.OUTTGL = PIN6_bm
 
@@ -23,6 +25,8 @@ InterruptSwitch button(&PORTA, PIN7_bm, &(PORTA.PIN7CTRL));
 Screen screen;
 
 Metter metter;
+
+Clock clock;
 
 uint16_t count;
 
@@ -63,20 +67,30 @@ ISR (PORTA_INT_vect) {
 	screen.drawCounter(count);
 }
 
+/* *****************
+ * RTC: 1 sec INT
+ ***************** */
+ISR (RTC_OVF_vect) {
+	clock.countSecond();
+	screen.drawTime(clock.days, clock.hours, clock.minutes, clock.seconds);
+}
+
 int main(void) {
 	LED_INIT;
 	screen.init();
-	
-	screen.drawTemplate();
 
 	Timer displayTimer(&TCC5, 500);
 	Timer adcTimer(&TCD5, 100);
 
 	displayTimer.Init(TC_OVFINTLVL_LO_gc);
 	adcTimer.Init(TC_OVFINTLVL_MED_gc);
+	
+	clock.init();
 
 	metter.init();
 	button.init();
+	
+	screen.drawTemplate();
 
 	// enable interrupts
 	PMIC.CTRL = PMIC_HILVLEN_bm | PMIC_MEDLVLEN_bm | PMIC_LOLVLEN_bm;
@@ -84,6 +98,8 @@ int main(void) {
 
 	adcTimer.Enable();
 	displayTimer.Enable();
+
+	clock.start();
 
     while (1) {
     }

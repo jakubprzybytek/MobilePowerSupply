@@ -201,6 +201,12 @@
     <Compile Include="Peripheral\ADC.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Peripheral\RTC.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Peripheral\RTC.hpp">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Screen.cpp">
       <SubType>compile</SubType>
     </Compile>
