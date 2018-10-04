@@ -46,6 +46,8 @@ C_SRCS +=  \
 ../IO/OledDriver.cpp \
 ../LMZ14203EvaluationBoard.cpp \
 ../Peripheral/ADC.cpp \
+../Screen.cpp \
+../Tools/Switch.cpp \
 ../Tools/Timer.cpp
 
 
@@ -61,6 +63,8 @@ IO/Metter.o \
 IO/OledDriver.o \
 LMZ14203EvaluationBoard.o \
 Peripheral/ADC.o \
+Screen.o \
+Tools/Switch.o \
 Tools/Timer.o
 
 OBJS_AS_ARGS +=  \
@@ -69,6 +73,8 @@ IO/Metter.o \
 IO/OledDriver.o \
 LMZ14203EvaluationBoard.o \
 Peripheral/ADC.o \
+Screen.o \
+Tools/Switch.o \
 Tools/Timer.o
 
 C_DEPS +=  \
@@ -77,6 +83,8 @@ IO/Metter.d \
 IO/OledDriver.d \
 LMZ14203EvaluationBoard.d \
 Peripheral/ADC.d \
+Screen.d \
+Tools/Switch.d \
 Tools/Timer.d
 
 C_DEPS_AS_ARGS +=  \
@@ -85,6 +93,8 @@ IO/Metter.d \
 IO/OledDriver.d \
 LMZ14203EvaluationBoard.d \
 Peripheral/ADC.d \
+Screen.d \
+Tools/Switch.d \
 Tools/Timer.d
 
 OUTPUT_FILE_PATH +=LMZ14203EvaluationBoard.elf
@@ -101,6 +111,10 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+
+
+
+
 
 
 

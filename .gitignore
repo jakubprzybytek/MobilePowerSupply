@@ -1,3 +1,6 @@
+*.atsuo
+Debug
+
 *.bak
 *.kicad_pcb-bak
 _autosave-*

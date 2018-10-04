@@ -12,5 +12,9 @@ LMZ14203EvaluationBoard.cpp
 
 Peripheral\ADC.cpp
 
+Screen.cpp
+
+Tools\Switch.cpp
+
 Tools\Timer.cpp
 
