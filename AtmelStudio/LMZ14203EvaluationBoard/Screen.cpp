@@ -6,7 +6,10 @@
  */ 
 
 #include "Screen.hpp"
-	
+
+#define BATT_MIN 220
+#define BATT_MAX 295
+
 char buffer[22];
 
 void Screen::init () {
@@ -32,11 +35,17 @@ void Screen::drawTemplate() {
 	sprintf(buffer, "Po=");
 	GUI_print3(buffer, 40, 20, 0x66);
 
+	sprintf(buffer, "Bat=");
+	GUI_print3(buffer, 0, 30, 0x66);
+
 	sprintf(buffer, "Eta=");
-	GUI_print3(buffer, 20, 30, 0x66);
+	GUI_print3(buffer, 30, 30, 0x66);
 
 	sprintf(buffer, "Time:");
 	GUI_print3(buffer, 0, 40, 0x66);
+
+	sprintf(buffer, "Amps:");
+	GUI_print3(buffer, 0, 50, 0x66);
 }
 
 void Screen::drawElectricParams(uint16_t inVoltageValue, uint16_t inCurrentValue, uint16_t outVoltageValue, uint16_t outCurrentValue) {
@@ -60,14 +69,23 @@ void Screen::drawElectricParams(uint16_t inVoltageValue, uint16_t inCurrentValue
 	sprintf(buffer, "%u.%uW", (uint16_t) outputPower / 1000, ((uint16_t) outputPower / 100) % 10);
 	GUI_print3(buffer, 49, 20, 0xee);
 
+	sprintf(buffer, "%u%%", (inVoltageValue - BATT_MIN) * 100 / (BATT_MAX - BATT_MIN));
+	GUI_print3(buffer, 12, 30, 0xee);
+
 	uint16_t eta = (outputPower * 1000) / inputPower;
 	sprintf(buffer, "%u.%u%% ", eta / 10, eta % 10);
-	GUI_print3(buffer, 32, 30, 0xee);
+	GUI_print3(buffer, 42, 30, 0xee);
 }
 
 void Screen::drawTime(uint8_t days, uint8_t hours, uint8_t minutes, uint8_t seconds) {
 	sprintf(buffer, "%ud %uh:%02um:%02us", days, hours, minutes, seconds);
 	GUI_print3(buffer, 15, 40, 0xee);
+}
+
+void Screen::drawAmpsConsumed(uint32_t ampsConsumed) {
+	uint16_t ampHours = ampsConsumed / 3600;
+	sprintf(buffer, "%u.%02uA/h", ampHours / 100, ampHours % 100);
+	GUI_print3(buffer, 15, 50, 0xee);
 }
 
 void Screen::drawCounter(uint16_t count) {

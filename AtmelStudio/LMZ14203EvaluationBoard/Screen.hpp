@@ -21,6 +21,7 @@ public:
 	void drawTemplate();
 	void drawElectricParams(uint16_t inVoltageValue, uint16_t inCurrentValue, uint16_t outVoltageValue, uint16_t outCurrentValue);
 	void drawTime(uint8_t days, uint8_t hours, uint8_t minutes, uint8_t seconds);
+	void drawAmpsConsumed(uint32_t ampsConsumed);
 	void drawCounter(uint16_t count);
 };
 

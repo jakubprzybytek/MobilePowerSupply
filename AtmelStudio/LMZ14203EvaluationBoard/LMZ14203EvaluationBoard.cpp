@@ -28,6 +28,8 @@ Metter metter;
 
 Clock clock;
 
+uint32_t ampsConsumed; // per second
+
 uint16_t count;
 
 /* *****************
@@ -72,7 +74,9 @@ ISR (PORTA_INT_vect) {
  ***************** */
 ISR (RTC_OVF_vect) {
 	clock.countSecond();
+	ampsConsumed += metter.inCurrentValue;
 	screen.drawTime(clock.days, clock.hours, clock.minutes, clock.seconds);
+	screen.drawAmpsConsumed(ampsConsumed);
 }
 
 int main(void) {
