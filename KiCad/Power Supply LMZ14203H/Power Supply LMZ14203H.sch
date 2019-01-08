@@ -1658,7 +1658,7 @@ Wire Wire Line
 	4650 2800 4650 2900
 Wire Wire Line
 	4650 3200 4650 3300
-Text GLabel 1200 3000 1    60   Input ~ 0
+Text GLabel 1200 2550 1    60   Input ~ 0
 POWER_IN
 Connection ~ 1200 3100
 Wire Wire Line
@@ -2066,6 +2066,118 @@ $EndComp
 Wire Wire Line
 	9850 5100 9850 5200
 Connection ~ 9850 5200
+Text Notes 550  2350 0    50   ~ 0
+VinMax = 35V
+$Comp
+L Diode:1N4007 D?
+U 1 1 5C20097F
+P 1200 2850
+F 0 "D?" V 1246 2771 50  0000 R CNN
+F 1 "1N4007" V 1155 2771 50  0000 R CNN
+F 2 "Diode_THT:D_DO-41_SOD81_P10.16mm_Horizontal" H 1200 2675 50  0001 C CNN
+F 3 "http://www.vishay.com/docs/88503/1n4001.pdf" H 1200 2850 50  0001 C CNN
+	1    1200 2850
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:+3.3V #PWR?
+U 1 1 5C23B876
+P 2300 1300
+F 0 "#PWR?" H 2300 1150 50  0001 C CNN
+F 1 "+3.3V" H 2300 1440 50  0000 C CNN
+F 2 "" H 2300 1300 50  0001 C CNN
+F 3 "" H 2300 1300 50  0001 C CNN
+	1    2300 1300
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1200 2550 1200 2700
+Text GLabel 1850 1550 1    60   Input ~ 0
+POWER_IN
+$Comp
+L Device:R R?
+U 1 1 5C2E23E0
+P 1850 1700
+F 0 "R?" V 1930 1700 50  0000 C CNN
+F 1 "47k" V 1850 1700 50  0000 C CNN
+F 2 "Resistors_SMD:R_0805" V 1780 1700 50  0001 C CNN
+F 3 "" H 1850 1700 50  0001 C CNN
+	1    1850 1700
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5C311AF4
+P 1850 2100
+F 0 "R?" V 1930 2100 50  0000 C CNN
+F 1 "4k7" V 1850 2100 50  0000 C CNN
+F 2 "Resistors_SMD:R_0805" V 1780 2100 50  0001 C CNN
+F 3 "" H 1850 2100 50  0001 C CNN
+	1    1850 2100
+	1    0    0    -1  
+$EndComp
+$Comp
+L Transistor_BJT:BC548 Q?
+U 1 1 5C311D59
+P 2200 1900
+F 0 "Q?" H 2391 1946 50  0000 L CNN
+F 1 "BC548" H 2391 1855 50  0000 L CNN
+F 2 "Package_TO_SOT_THT:TO-92_Inline" H 2400 1825 50  0001 L CIN
+F 3 "http://www.fairchildsemi.com/ds/BC/BC547.pdf" H 2200 1900 50  0001 L CNN
+	1    2200 1900
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R?
+U 1 1 5C311E29
+P 2300 1450
+F 0 "R?" V 2380 1450 50  0000 C CNN
+F 1 "47k" V 2300 1450 50  0000 C CNN
+F 2 "Resistors_SMD:R_0805" V 2230 1450 50  0001 C CNN
+F 3 "" H 2300 1450 50  0001 C CNN
+	1    2300 1450
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5C311EFB
+P 1850 2250
+F 0 "#PWR?" H 1850 2000 50  0001 C CNN
+F 1 "GND" H 1850 2100 50  0000 C CNN
+F 2 "" H 1850 2250 50  0001 C CNN
+F 3 "" H 1850 2250 50  0001 C CNN
+	1    1850 2250
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5C311FA0
+P 2300 2250
+F 0 "#PWR?" H 2300 2000 50  0001 C CNN
+F 1 "GND" H 2300 2100 50  0000 C CNN
+F 2 "" H 2300 2250 50  0001 C CNN
+F 3 "" H 2300 2250 50  0001 C CNN
+	1    2300 2250
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2300 2250 2300 2100
+Wire Wire Line
+	1850 1850 1850 1900
+Wire Wire Line
+	1850 1900 2000 1900
+Connection ~ 1850 1900
+Wire Wire Line
+	1850 1900 1850 1950
+Text GLabel 2450 1650 2    50   Input ~ 0
+PowerSense
+Wire Wire Line
+	2450 1650 2300 1650
+Wire Wire Line
+	2300 1600 2300 1650
+Connection ~ 2300 1650
+Wire Wire Line
+	2300 1650 2300 1700
 Wire Bus Line
 	2850 6200 2850 7050
 Wire Bus Line
