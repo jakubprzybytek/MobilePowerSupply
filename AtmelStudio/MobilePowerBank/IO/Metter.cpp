@@ -23,6 +23,9 @@ void Metter::init() {
 	adcA.setInput(ADC3, ADC4);
 	adcB.init();
 	adcB.setInput(ADC5, ADC6);
+
+	dma.init();
+	dma.start();
 }
 
 void Metter::toggleInput() {
@@ -36,9 +39,17 @@ void Metter::start() {
 	adcB.start();
 }
 
-void Metter::storeReadout() {
+void Metter::storeAvgReadoutA() {
+	dma.readBlockByChannels(&(this->first), &(this->second));
+	dma.start();
+}
+
+void Metter::storeReadoutA() {
 	out2CurrentValue = adcA.readFirst() * VOLTAGE_A_FACTOR + VOLTAGE_B_FACTOR;
 	out2VoltageValue = adcA.readSecond() * OUT_CURRENT_A_FACTOR + OUT_CURRENT_B_FACTOR;
+}
+
+void Metter::storeReadoutB() {
 	inCurrentValue = adcB.readFirst() * VOLTAGE_A_FACTOR + VOLTAGE_B_FACTOR;
 	inVoltageValue = adcB.readSecond() * IN_CURRENT_A_FACTOR + IN_CURRENT_B_FACTOR;
 

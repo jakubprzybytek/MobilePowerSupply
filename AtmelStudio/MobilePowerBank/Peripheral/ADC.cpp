@@ -11,10 +11,10 @@ void ADC::init() {
 
 	adc->PRESCALER = ADC_PRESCALER_DIV16_gc;
 	adc->CTRLA = ADC_ENABLE_bm;
-	adc->CTRLB = 0; //ADC_RESOLUTION0_bm; // MT12bit
+	adc->CTRLB = 0; // MT12bit
 	adc->REFCTRL = 0; // Internal 1V
 	//adc->INTFLAGS = (2 << channelNumber); //ADC_CH0IF_bm;
-	firstChannel->INTCTRL = ADC_CH_INTLVL1_bm | ADC_CH_INTLVL0_bm; // High Level Interrupt
+	//firstChannel->INTCTRL = ADC_CH_INTLVL1_bm | ADC_CH_INTLVL0_bm; // High Level Interrupt
 	firstChannel->CTRL = ADC_CH_INPUTMODE0_bm; // Single-Ended mode
 	secondChannel->INTCTRL = ADC_CH_INTLVL1_bm | ADC_CH_INTLVL0_bm; // High Level Interrupt
 	secondChannel->CTRL = ADC_CH_INPUTMODE0_bm; // Single-Ended mode

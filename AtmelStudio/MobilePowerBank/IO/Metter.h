@@ -10,12 +10,15 @@
 #define METTER_H_
 
 #include "../Peripheral/ADC.h"
+#include "../Peripheral/DMA.h"
 
 class Metter {
 
 private:
 	ADC adcA;
 	ADC adcB;
+
+	DMAC dma;
 
 public:
 	uint8_t activeADC;
@@ -25,16 +28,22 @@ public:
 	uint16_t out2VoltageValue;
 	uint16_t out2CurrentValue;
 
+	uint16_t first;
+	uint16_t second;
+
+
 public:
-	Metter() : adcA(&ADCA, 0, &PORTA), adcB(&ADCB, 0, &PORTB), activeADC(0) {}
+	Metter() : adcA(&ADCA, 0, &PORTA), adcB(&ADCB, 0, &PORTB), dma(4), activeADC(0) {}
 
 	void init();
 
 	void toggleInput();
 	void start();
 
-	void storeReadout();
+	void storeReadoutA();
+	void storeReadoutB();
 
+	void storeAvgReadoutA();
 };
 
 #endif /* METTER_H_ */

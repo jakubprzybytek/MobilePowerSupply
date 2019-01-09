@@ -21,29 +21,20 @@ char buffer[22];
 /* *****************
  * ADCA: Conversion Complete interrupt
  ***************** */
-ISR (ADCA_CH0_vect) {
-	metter.storeReadout();
-}
-
-/* *****************
- * ADCA: Conversion Complete interrupt
- ***************** */
 ISR (ADCA_CH1_vect) {
-	metter.storeReadout();
-}
-
-/* *****************
- * ADCB: Conversion Complete interrupt
- ***************** */
-ISR (ADCB_CH0_vect) {
-	metter.storeReadout();
+	metter.storeReadoutA();
 }
 
 /* *****************
  * ADCB: Conversion Complete interrupt
  ***************** */
 ISR (ADCB_CH1_vect) {
-	metter.storeReadout();
+	metter.storeReadoutB();
+}
+
+ISR (DMA_CH0_vect) {
+	metter.storeAvgReadoutA();
+	DMA.INTFLAGS = DMA_CH0TRNIF_bm;
 }
 
 int main(void)
@@ -62,11 +53,9 @@ int main(void)
 
     while (1) 
     {
-		
 		metter.toggleInput();
 		metter.start();
 
-		
 		PORTF.OUTTGL = PIN2_bm;
 		_delay_ms(250);
 
@@ -75,6 +64,9 @@ int main(void)
 
 		sprintf(buffer, "Out2: %u %u", metter.out2VoltageValue, metter.out2CurrentValue);
 		GUI_print3(buffer, 9, 30, 0xee);
+
+		sprintf(buffer, "x: %u %u", metter.second, metter.first);
+		GUI_print3(buffer, 9, 50, 0x88);
     }
 }
 
