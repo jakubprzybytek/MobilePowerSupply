@@ -212,6 +212,12 @@
     <Compile Include="Peripheral\RTC.hpp">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Screen.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Screen.hpp">
+      <SubType>compile</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Fonts\" />

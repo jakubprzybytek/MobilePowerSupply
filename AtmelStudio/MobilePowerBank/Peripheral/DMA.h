@@ -5,19 +5,25 @@
  *  Author: Rodos
  */ 
 
-
 #ifndef DMA_H_
 #define DMA_H_
+
+#define CHANNELS 2
 
 class DMAC {
 
 private:
-	uint8_t avgLen;
-	uint16_t* bufferA;
+	DMA_CH_t* channel;
+	uint16_t avgLen;
+
+	uint16_t* readsBuffer;
 
 public:
-	DMAC(uint8_t avgLen) : avgLen(avgLen) {};
-	void init();
+	DMAC(DMA_CH_t* channel) : channel(channel) {};
+	
+	static void enable();
+
+	void init(register16_t* adcResAddress, uint16_t avgLen);
 
 	void start();
 
