@@ -13,14 +13,14 @@ void DMAC::enable() {
 	DMA.CTRL = DMA_ENABLE_bm;
 }
 
-void DMAC::init(register16_t* adcResAddress, uint16_t avgLen) {
+void DMAC::init(register16_t* adcResAddress, uint8_t TRIGSRC, uint16_t avgLen) {
 	this->avgLen = avgLen;
 	this->readsBuffer = (uint16_t*)malloc(sizeof(uint16_t) * CHANNELS * avgLen);
 
-	channel->CTRLA = DMA_CH_SINGLE_bm | DMA_CH_BURSTLEN1_bm; // Single read, burst mode 2B
+	channel->CTRLA = DMA_CH_SINGLE_bm | DMA_CH_BURSTLEN1_bm | DMA_CH_BURSTLEN0_bm; // Single read, burst mode 2B (ADC RES is 2B)
 	channel->TRFCNT = sizeof(uint16_t) * CHANNELS * avgLen; // 16 bytes in block
 	channel->ADDRCTRL = DMA_CH_SRCRELOAD1_bm | DMA_CH_SRCDIR0_bm | DMA_CH_DESTRELOAD1_bm | DMA_CH_DESTRELOAD0_bm | DMA_CH_DESTDIR0_bm; // Reload source address on burst end, reload destination address on transaction end
-	channel->TRIGSRC = 0x11; // ADCA.CH0-3
+	channel->TRIGSRC = TRIGSRC;// 0x11; // ADCA.CH0-3
 	channel->SRCADDR0 = (register8_t)(uintptr_t)adcResAddress;
 	channel->SRCADDR1 = (register8_t)((uintptr_t)adcResAddress >> 8);
 	channel->SRCADDR2 = 0x00;
@@ -35,15 +35,21 @@ void DMAC::start() {
 	channel->CTRLA |= DMA_CH_ENABLE_bm;
 }
 
-void DMAC::readBlockByChannels(uint16_t* first, uint16_t* second) {
+void DMAC::readBlockByChannels(uint16_t* first, uint16_t* second, uint16_t* third, uint16_t* fourth) {
 	uint32_t firstTemp = 0;
 	uint32_t secondTemp = 0;
+	uint32_t thirdTemp = 0;
+	uint32_t fourthTemp = 0;
 
 	for (uint16_t i = 0; i < this->avgLen * CHANNELS;) {
 		firstTemp += this->readsBuffer[i++];
 		secondTemp += this->readsBuffer[i++];
+		thirdTemp += this->readsBuffer[i++];
+		fourthTemp += this->readsBuffer[i++];
 	}
 
 	*first = firstTemp / this->avgLen;
 	*second = secondTemp / this->avgLen;
+	*third = thirdTemp / this->avgLen;
+	*fourth = fourthTemp / this->avgLen;
 }

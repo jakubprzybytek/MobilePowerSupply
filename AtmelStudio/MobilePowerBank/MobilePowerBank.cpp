@@ -11,24 +11,38 @@
 
 #include <stdio.h>
 
-#include "IO/GUI.h"
-#include "IO/Metter.h"
 #include "Screen.hpp"
 
+#include "IO/GUI.h"
+#include "IO/Metter.h"
+
+#include "Peripheral/RTC.hpp"
+
+#include "Tools/Timer.hpp"
+
+Screen screen;
 Metter metter;
 
+Clock clock;
+uint32_t ampsConsumed; // per second
+
 /* *****************
- * ADCA: Conversion Complete interrupt
+ * RTC: 1 sec INT
  ***************** */
-ISR (ADCA_CH1_vect) {
-	//metter.storeReadoutA();
+ISR (RTC_OVF_vect) {
+	clock.countSecond();
+	ampsConsumed += metter.inCurrentValue;
+	screen.drawTime(clock.days, clock.hours, clock.minutes, clock.seconds);
+	screen.drawAmpsConsumed(ampsConsumed);
 }
 
 /* *****************
- * ADCB: Conversion Complete interrupt
+ * TCC5: Display refresh timer interrupt
  ***************** */
-ISR (ADCB_CH1_vect) {
-	//metter.storeReadoutB();
+ISR (TCC0_OVF_vect) {
+	PORTF.OUTTGL = PIN2_bm;
+	screen.drawElectricParams(metter.inVoltageValue, metter.inCurrentValue, metter.out2VoltageValue, metter.out2CurrentValue, metter.out3VoltageValue, metter.out3CurrentValue);
+	metter.start();
 }
 
 /* *****************
@@ -51,27 +65,23 @@ int main(void)
 {
 	PORTF.DIRSET = PIN2_bm;
 
-	Screen screen;
-	
+	Timer displayTimer(&TCC0, 200);
+
 	screen.init();
 	metter.init();
-//	PORTB.OUTSET = 0x00;
+	clock.init();
+	displayTimer.Init(TC_OVFINTLVL_LO_gc);
 
 	screen.drawTemplate();
+	
+	clock.start();
+	displayTimer.Enable();
 
 	// enable interrupts
 	PMIC.CTRL = PMIC_HILVLEN_bm | PMIC_MEDLVLEN_bm | PMIC_LOLVLEN_bm;
 	sei();
 
     while (1) 
-    {
-		//metter.toggleInput();
-		metter.start();
-
-		PORTF.OUTTGL = PIN2_bm;
-		_delay_ms(100);
-
-		screen.drawElectricParams(metter.inVoltageValue, metter.inCurrentValue, metter.out2VoltageValue, metter.out2CurrentValue);
-    }
+    { }
 }
 

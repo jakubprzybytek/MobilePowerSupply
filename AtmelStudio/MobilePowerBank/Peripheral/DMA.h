@@ -8,7 +8,7 @@
 #ifndef DMA_H_
 #define DMA_H_
 
-#define CHANNELS 2
+#define CHANNELS 4
 
 class DMAC {
 
@@ -23,11 +23,11 @@ public:
 	
 	static void enable();
 
-	void init(register16_t* adcResAddress, uint16_t avgLen);
+	void init(register16_t* adcResAddress, uint8_t TRIGSRC, uint16_t avgLen);
 
 	void start();
 
-	void readBlockByChannels(uint16_t* first, uint16_t* second);
+	void readBlockByChannels(uint16_t* first, uint16_t* second, uint16_t* third, uint16_t* fourth);
 };
 
 #endif /* DMA_H_ */

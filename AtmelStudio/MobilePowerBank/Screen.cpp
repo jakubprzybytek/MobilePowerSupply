@@ -17,23 +17,14 @@ void Screen::init () {
 }
 
 void Screen::drawTemplate() {
-	sprintf(buffer, "Ui=");
+	sprintf(buffer, "I=");
 	GUI_print3(buffer, 0, 0, 0x66);
 
-	sprintf(buffer, "Ii=");
-	GUI_print3(buffer, 0, 10, 0x66);
+	sprintf(buffer, "O2=");
+	GUI_print3(buffer, 0, 9, 0x66);
 
-	sprintf(buffer, "Pi=");
-	GUI_print3(buffer, 0, 20, 0x66);
-
-	sprintf(buffer, "Uo=");
-	GUI_print3(buffer, 40, 0, 0x66);
-
-	sprintf(buffer, "Io=");
-	GUI_print3(buffer, 40, 10, 0x66);
-
-	sprintf(buffer, "Po=");
-	GUI_print3(buffer, 40, 20, 0x66);
+	sprintf(buffer, "O3=");
+	GUI_print3(buffer, 0, 18, 0x66);
 
 	sprintf(buffer, "Bat=");
 	GUI_print3(buffer, 0, 30, 0x66);
@@ -48,31 +39,37 @@ void Screen::drawTemplate() {
 	GUI_print3(buffer, 0, 50, 0x66);
 }
 
-void Screen::drawElectricParams(uint16_t inVoltageValue, uint16_t inCurrentValue, uint16_t out2VoltageValue, uint16_t out2CurrentValue) {
-	sprintf(buffer, "%u.%uV", inVoltageValue / 10, inVoltageValue % 10);
-	GUI_print3(buffer, 9, 0, 0xee);
-
-	sprintf(buffer, "%u.%02uA", inCurrentValue / 100, inCurrentValue % 100);
-	GUI_print3(buffer, 9, 10, 0xee);
-
+void Screen::drawElectricParams(uint16_t inVoltageValue, uint16_t inCurrentValue, uint16_t out2VoltageValue, uint16_t out2CurrentValue, uint16_t out3VoltageValue, uint16_t out3CurrentValue) {
+	// In
 	uint32_t inputPower = ((uint32_t) inVoltageValue) * inCurrentValue;
-	sprintf(buffer, "%u.%uW", (uint16_t) inputPower / 1000, ((uint16_t) inputPower / 100) % 10);
-	GUI_print3(buffer, 9, 20, 0xee);
+	sprintf(buffer, "%u.%uV %u.%02uA %u.%uW", inVoltageValue / 10, inVoltageValue % 10, inCurrentValue / 100, inCurrentValue % 100, (uint16_t) inputPower / 1000, ((uint16_t) inputPower / 100) % 10);
+	GUI_print3(buffer, 7, 0, 0xee);
 
-	sprintf(buffer, "%u.%uV", out2VoltageValue / 10, out2VoltageValue % 10);
-	GUI_print3(buffer, 49, 0, 0xee);
+	// Out 2
+	uint32_t output2Power = ((uint32_t) out2VoltageValue) * out2CurrentValue;
+	sprintf(buffer, "%u.%uV %u.%02uA %u.%uW", out2VoltageValue / 10, out2VoltageValue % 10, out2CurrentValue / 100, out2CurrentValue % 100, (uint16_t) output2Power / 1000, ((uint16_t) output2Power / 100) % 10);
+	GUI_print3(buffer, 9, 9, 0xee);
 
-	sprintf(buffer, "%u.%02uA", out2CurrentValue / 100, out2CurrentValue % 100);
-	GUI_print3(buffer, 49, 10, 0xee);
-
-	uint32_t outputPower = ((uint32_t) out2VoltageValue) * out2CurrentValue;
-	sprintf(buffer, "%u.%uW", (uint16_t) outputPower / 1000, ((uint16_t) outputPower / 100) % 10);
-	GUI_print3(buffer, 49, 20, 0xee);
+	// Out 3
+	uint32_t output3Power = ((uint32_t) out3VoltageValue) * out3CurrentValue;
+	sprintf(buffer, "%u.%uV %u.%02uA %u.%uW", out3VoltageValue / 10, out3VoltageValue % 10, out3CurrentValue / 100, out3CurrentValue % 100, (uint16_t) output3Power / 1000, ((uint16_t) output3Power / 100) % 10);
+	GUI_print3(buffer, 9, 18, 0xee);
 
 	sprintf(buffer, "%u%%", (inVoltageValue - BATT_MIN) * 100 / (BATT_MAX - BATT_MIN));
 	GUI_print3(buffer, 12, 30, 0xee);
 
-	uint16_t eta = (outputPower * 1000) / inputPower;
+	uint16_t eta = (output2Power * 1000) / inputPower;
 	sprintf(buffer, "%u.%u%% ", eta / 10, eta % 10);
 	GUI_print3(buffer, 42, 30, 0xee);
+}
+
+void Screen::drawTime(uint8_t days, uint8_t hours, uint8_t minutes, uint8_t seconds) {
+	sprintf(buffer, "%ud %uh:%02um:%02us", days, hours, minutes, seconds);
+	GUI_print3(buffer, 15, 40, 0xee);
+}
+
+void Screen::drawAmpsConsumed(uint32_t ampsConsumed) {
+	uint16_t ampHours = ampsConsumed / 3600;
+	sprintf(buffer, "%u.%02uA/h", ampHours / 100, ampHours % 100);
+	GUI_print3(buffer, 15, 50, 0xee);
 }

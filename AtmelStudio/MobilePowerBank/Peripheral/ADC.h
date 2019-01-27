@@ -29,18 +29,14 @@ private:
 public:
 	ADC(ADC_t* adc, uint8_t channelNumber, PORT_t* port) : 
 		adc(adc), 
-		firstChannel(&(adc->CH0) + channelNumber), 
-		secondChannel(&(adc->CH0) + channelNumber + 1),
 		channelNumber(channelNumber), 
 		port(port) {}
 	
 	void init();
 
-	void setInput(uint8_t input1, uint8_t input2);
+	void setInput(uint8_t input1, uint8_t input2, uint8_t input3, uint8_t input4);
 	void start();
 
-	uint16_t readFirst();
-	uint16_t readSecond();
 };
 
 #endif /* ADC_H_ */

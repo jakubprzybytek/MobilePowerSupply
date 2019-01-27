@@ -5,7 +5,6 @@
  *  Author: Rodos
  */ 
 
-
 #ifndef METTER_H_
 #define METTER_H_
 
@@ -28,6 +27,8 @@ public:
 	uint16_t inCurrentValue;
 	uint16_t out2VoltageValue;
 	uint16_t out2CurrentValue;
+	uint16_t out3VoltageValue;
+	uint16_t out3CurrentValue;
 
 public:
 	Metter() : 

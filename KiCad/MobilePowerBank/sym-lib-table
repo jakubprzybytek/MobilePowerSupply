@@ -28,4 +28,5 @@
   (lib (name valves)(type Legacy)(uri ${KICAD_SYMBOL_DIR}/valves.lib)(options "")(descr ""))
   (lib (name dc-dc)(type Legacy)(uri ${KICAD_SYMBOL_DIR}/dc-dc.lib)(options "")(descr ""))
   (lib (name myLib)(type Legacy)(uri D:/Workspace/KiCad-JPLibs/components/myLib.lib)(options "")(descr ""))
+  (lib (name MobilePowerBank-rescue)(type Legacy)(uri ${KIPRJMOD}/MobilePowerBank-rescue.lib)(options "")(descr ""))
 )

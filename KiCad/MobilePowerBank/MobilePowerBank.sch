@@ -26,7 +26,7 @@ F 3 "" H 5050 2550 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L conn:Conn_01x02 J1
+L MobilePowerBank-rescue:Conn_01x02-conn J1
 U 1 1 59FFC4D5
 P 850 5400
 F 0 "J1" H 850 5500 50  0000 C CNN
@@ -48,7 +48,7 @@ F 3 "" H 2100 5450 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L conn:Conn_01x02 J3
+L MobilePowerBank-rescue:Conn_01x02-conn J3
 U 1 1 59FFC5CF
 P 9400 2450
 F 0 "J3" H 9400 2550 50  0000 C CNN
@@ -771,7 +771,7 @@ Wire Wire Line
 	11450 11700 11450 11850
 Connection ~ 11450 11850
 $Comp
-L conn:Conn_02x03_Odd_Even J5
+L MobilePowerBank-rescue:Conn_02x03_Odd_Even-conn J5
 U 1 1 5B7326AC
 P 6700 11550
 F 0 "J5" H 6750 11750 50  0000 C CNN
@@ -822,7 +822,7 @@ Wire Wire Line
 NoConn ~ 7000 11550
 NoConn ~ 6500 11550
 $Comp
-L conn:Conn_01x04 J4
+L MobilePowerBank-rescue:Conn_01x04-conn J4
 U 1 1 5B733C01
 P 6400 12600
 F 0 "J4" H 6400 12800 50  0000 C CNN
@@ -911,7 +911,7 @@ Wire Wire Line
 Wire Wire Line
 	13750 13650 13550 13650
 $Comp
-L regul:L7805 U3
+L MobilePowerBank-rescue:L7805-regul U3
 U 1 1 5B736775
 P 3100 11350
 F 0 "U3" H 2950 11475 50  0000 C CNN
@@ -922,7 +922,7 @@ F 3 "" H 3100 11300 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L regul:L7805 U5
+L MobilePowerBank-rescue:L7805-regul U5
 U 1 1 5B73681E
 P 4450 11350
 F 0 "U5" H 4300 11475 50  0000 C CNN
@@ -1191,7 +1191,7 @@ F 3 "" H 4100 12350 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L switches:SW_DIP_x01 SW1
+L MobilePowerBank-rescue:SW_DIP_x01-switches SW1
 U 1 1 5B739FEE
 P 4100 13000
 F 0 "SW1" H 4100 13150 50  0000 C CNN
@@ -1256,7 +1256,7 @@ Wire Wire Line
 	4100 12500 4100 12600
 Connection ~ 4100 12600
 $Comp
-L conn:Conn_01x30 J6
+L MobilePowerBank-rescue:Conn_01x30-conn J6
 U 1 1 5B73B056
 P 17750 13200
 F 0 "J6" H 17750 14700 50  0000 C CNN
@@ -1837,7 +1837,7 @@ F 3 "" H 5050 5150 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L conn:Conn_01x02 J2
+L MobilePowerBank-rescue:Conn_01x02-conn J2
 U 1 1 5BEE7E91
 P 9400 5000
 F 0 "J2" H 9400 5100 50  0000 C CNN
@@ -2390,7 +2390,7 @@ F 3 "" H 5050 7600 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L conn:Conn_01x02 J7
+L MobilePowerBank-rescue:Conn_01x02-conn J7
 U 1 1 5BF01E64
 P 9400 7500
 F 0 "J7" H 9400 7600 50  0000 C CNN
@@ -2943,7 +2943,7 @@ F 3 "" H 11950 2600 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L conn:Conn_01x02 J8
+L MobilePowerBank-rescue:Conn_01x02-conn J8
 U 1 1 5BF3E2D5
 P 16300 2500
 F 0 "J8" H 16300 2600 50  0000 C CNN
@@ -3496,7 +3496,7 @@ F 3 "" H 11950 5150 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L conn:Conn_01x02 J9
+L MobilePowerBank-rescue:Conn_01x02-conn J9
 U 1 1 5BF3E431
 P 16300 5050
 F 0 "J9" H 16300 5150 50  0000 C CNN
@@ -4033,7 +4033,7 @@ F 3 "" H 15100 5400 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L atmel:ATXMEGA256A3U-AU U15
+L MobilePowerBank-rescue:ATXMEGA256A3U-AU-atmel U15
 U 1 1 5BF96E39
 P 12550 13250
 F 0 "U15" H 12550 15128 50  0000 C CNN
@@ -4367,7 +4367,7 @@ F 3 "" H 13850 8000 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L conn:Conn_01x02 J10
+L MobilePowerBank-rescue:Conn_01x02-conn J10
 U 1 1 5BCA8471
 P 18200 7900
 F 0 "J10" H 18200 8000 50  0000 C CNN
@@ -4945,7 +4945,7 @@ Wire Wire Line
 Connection ~ 17500 6700
 Connection ~ 8700 6300
 $Comp
-L myJumpers:jumper x1
+L MobilePowerBank-rescue:jumper-myJumpers x1
 U 1 1 5BFC2A6F
 P 4900 7200
 F 0 "x1" H 4900 7325 50  0000 C CNN
@@ -5091,7 +5091,7 @@ Wire Wire Line
 	7950 3800 8700 3800
 Connection ~ 8700 3800
 $Comp
-L myJumpers:jumper x2
+L MobilePowerBank-rescue:jumper-myJumpers x2
 U 1 1 5C08F1E5
 P 4900 2150
 F 0 "x2" H 4900 2275 50  0000 C CNN
@@ -5155,7 +5155,7 @@ Wire Wire Line
 Text GLabel 11750 2300 0    50   Input ~ 0
 POWER_IN_1
 $Comp
-L myJumpers:jumper x3
+L MobilePowerBank-rescue:jumper-myJumpers x3
 U 1 1 5C1BCF0A
 P 11800 2200
 F 0 "x3" H 11800 2325 50  0000 C CNN
@@ -5308,7 +5308,7 @@ Wire Wire Line
 Text GLabel 13650 7700 0    50   Input ~ 0
 POWER_IN_4
 $Comp
-L myJumpers:jumper x4
+L MobilePowerBank-rescue:jumper-myJumpers x4
 U 1 1 5C80460D
 P 13700 7600
 F 0 "x4" H 13700 7725 50  0000 C CNN
@@ -5339,7 +5339,7 @@ Wire Wire Line
 Text GLabel 2300 11350 0    50   Input ~ 0
 POWER_IN_6
 $Comp
-L myJumpers:jumper x5
+L MobilePowerBank-rescue:jumper-myJumpers x5
 U 1 1 5CA0F569
 P 2350 11250
 F 0 "x5" H 2350 11375 50  0000 C CNN
@@ -5551,7 +5551,7 @@ F 3 "" H 3450 3950 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L myJumpers:jumper x7
+L MobilePowerBank-rescue:jumper-myJumpers x7
 U 1 1 5CA8A130
 P 19550 2700
 F 0 "x7" H 19550 2825 50  0000 C CNN
@@ -5584,7 +5584,7 @@ F 3 "" H 19600 2800 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L myJumpers:jumper x6
+L MobilePowerBank-rescue:jumper-myJumpers x6
 U 1 1 5CA8B5EF
 P 19550 2450
 F 0 "x6" H 19550 2575 50  0000 C CNN
@@ -5617,7 +5617,7 @@ F 3 "" H 19600 2550 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L myJumpers:jumper x9
+L MobilePowerBank-rescue:jumper-myJumpers x9
 U 1 1 5CAF3D77
 P 19550 2250
 F 0 "x9" H 19550 2375 50  0000 C CNN
@@ -5650,7 +5650,7 @@ F 3 "" H 19600 2350 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L myJumpers:jumper x8
+L MobilePowerBank-rescue:jumper-myJumpers x8
 U 1 1 5CAF3D89
 P 19550 2000
 F 0 "x8" H 19550 2125 50  0000 C CNN
@@ -5754,7 +5754,7 @@ F 3 "~" H 21600 5400 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L regul:L78L05_SOT89 U17
+L MobilePowerBank-rescue:L78L05_SOT89-regul U17
 U 1 1 5C1B834B
 P 2150 6300
 F 0 "U17" H 2150 6542 50  0000 C CNN
@@ -5769,7 +5769,7 @@ L Device:R R99
 U 1 1 5C1B856B
 P 2700 6300
 F 0 "R99" V 2780 6300 50  0000 C CNN
-F 1 "1k" V 2700 6300 50  0000 C CNN
+F 1 "3k3" V 2700 6300 50  0000 C CNN
 F 2 "Resistors_SMD:R_0805" V 2630 6300 50  0001 C CNN
 F 3 "" H 2700 6300 50  0001 C CNN
 	1    2700 6300
@@ -5810,7 +5810,7 @@ L Device:CP C76
 U 1 1 5C637E7B
 P 3150 6500
 F 0 "C76" H 3175 6600 50  0000 L CNN
-F 1 "47u/16V" H 3175 6400 50  0000 L CNN
+F 1 "22u/16V" H 3175 6400 50  0000 L CNN
 F 2 "Capacitors_SMD:CP_Elec_4x5.8" H 3188 6350 50  0001 C CNN
 F 3 "" H 3150 6500 50  0001 C CNN
 	1    3150 6500
@@ -5837,7 +5837,7 @@ Wire Wire Line
 Text Notes 2550 6050 0    50   ~ 0
 R=5V/5mA=1k
 $Comp
-L conn:Conn_01x02 J11
+L MobilePowerBank-rescue:Conn_01x02-conn J11
 U 1 1 5C8573AF
 P 3800 6300
 F 0 "J11" H 3800 6400 50  0000 C CNN
@@ -6016,12 +6016,12 @@ Wire Wire Line
 	15100 5550 15100 5600
 Wire Wire Line
 	15100 5600 14850 5600
+Text Notes 6750 4500 0    50   ~ 0
+3.9/(47+3.9) * 12V = 0.92V
 Wire Bus Line
 	14300 13950 14300 15650
 Wire Bus Line
 	10800 13650 10800 15650
 Wire Bus Line
 	16800 12300 16800 13950
-Text Notes 6750 4500 0    50   ~ 0
-3.9/(47+3.9) * 12V = 0.92V
 $EndSCHEMATC
