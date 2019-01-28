@@ -12,8 +12,8 @@
 #include <stdbool.h>
 
 void GUI_Init();
-
 void GUI_Shutdown();
+bool GUI_IsActive();
 
 void GUI_Clean();
 

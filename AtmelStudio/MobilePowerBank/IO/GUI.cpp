@@ -12,6 +12,8 @@
 
 #include "../Fonts/font.h"
 
+bool isActive = false;
+
 void GUI_Init() {
 	OLED_INIT_PORTS
 
@@ -30,6 +32,7 @@ void GUI_Init() {
 
 	OLED_Set_Master_Config(0x00);
 	//OLED_Set_Gray_Scale_Table();
+	//OLED_Set_Contrast(0x00);
 	OLED_Set_Remap_Format(0x52);
 	OLED_Set_Multiplex_Ratio(64);
 	OLED_Set_Start_Line(0);
@@ -38,10 +41,18 @@ void GUI_Init() {
 	OLED_Set_Display_On_Off(0x01);
 
 	GUI_Clean();
+
+	isActive = true;
 }
 
 void GUI_Shutdown() {
 	OLED_Set_Display_On_Off(0x00);
+
+	isActive = false;
+}
+
+bool GUI_IsActive() {
+	return isActive;
 }
 
 void GUI_Clean() {
@@ -72,13 +83,12 @@ void GUI_print3(char* text, unsigned char x, unsigned char y, unsigned char patt
 		
 			for (uint8_t j = 0; j < 7; j++) {
 				unsigned char output = ((left & 0x01) ? 0xf0 : 0x00) | ((right & 0x01) ? 0x0f : 0x00);
-				OLED_OUT = Bit_Reverse(output & pattern);
+				OLED_OUT = output & pattern;
 				OLED_WRITE
 			
 				right = right >> 1;
 				left = left >> 1;
 			}
 		}
-	}
-	
+	}	
 }

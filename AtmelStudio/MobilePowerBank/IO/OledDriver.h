@@ -50,6 +50,8 @@ void OLED_Set_Display_On_Off(unsigned char d);
 
 void OLED_Set_Gray_Scale_Table();
 
+void OLED_Set_Contrast(unsigned char d);
+
 void OLED_Set_Column_Address(unsigned char a, unsigned char b);
 
 void OLED_Set_Row_Address(unsigned char a, unsigned char b);

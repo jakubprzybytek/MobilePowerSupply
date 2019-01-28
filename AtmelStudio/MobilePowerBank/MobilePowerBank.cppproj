@@ -218,6 +218,12 @@
     <Compile Include="Screen.hpp">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Tools\Switch.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Tools\Switch.hpp">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Tools\Timer.cpp">
       <SubType>compile</SubType>
     </Compile>

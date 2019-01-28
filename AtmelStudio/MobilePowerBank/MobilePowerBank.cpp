@@ -19,6 +19,7 @@
 #include "Peripheral/RTC.hpp"
 
 #include "Tools/Timer.hpp"
+#include "Tools/Switch.hpp"
 
 Screen screen;
 Metter metter;
@@ -26,14 +27,21 @@ Metter metter;
 Clock clock;
 uint32_t ampsConsumed; // per second
 
+InterruptSwitch button(&PORTF, PIN3_bm, &(PORTF.PIN3CTRL));
+
+uint16_t count;
+
 /* *****************
  * RTC: 1 sec INT
  ***************** */
 ISR (RTC_OVF_vect) {
 	clock.countSecond();
 	ampsConsumed += metter.inCurrentValue;
-	screen.drawTime(clock.days, clock.hours, clock.minutes, clock.seconds);
-	screen.drawAmpsConsumed(ampsConsumed);
+	
+	if (screen.isActive()) {
+		screen.drawTime(clock.days, clock.hours, clock.minutes, clock.seconds);
+		screen.drawAmpsConsumed(ampsConsumed);
+	}
 }
 
 /* *****************
@@ -41,7 +49,9 @@ ISR (RTC_OVF_vect) {
  ***************** */
 ISR (TCC0_OVF_vect) {
 	PORTF.OUTTGL = PIN2_bm;
-	screen.drawElectricParams(metter.inVoltageValue, metter.inCurrentValue, metter.out2VoltageValue, metter.out2CurrentValue, metter.out3VoltageValue, metter.out3CurrentValue);
+	if (screen.isActive()) {
+		screen.drawElectricParams(metter.inVoltageValue, metter.inCurrentValue, metter.out2VoltageValue, metter.out2CurrentValue, metter.out3VoltageValue, metter.out3CurrentValue);
+	}
 	metter.start();
 }
 
@@ -61,6 +71,17 @@ ISR (DMA_CH1_vect) {
 	DMA.INTFLAGS = DMA_CH1TRNIF_bm;
 }
 
+/* *****************
+ * Port F: Switch 0 int
+ ***************** */
+ISR (PORTF_INT0_vect) {
+	if (screen.isActive()) {
+		screen.shutdown();
+	} else {
+		screen.init();
+	}
+}
+
 int main(void)
 {
 	PORTF.DIRSET = PIN2_bm;
@@ -71,8 +92,7 @@ int main(void)
 	metter.init();
 	clock.init();
 	displayTimer.Init(TC_OVFINTLVL_LO_gc);
-
-	screen.drawTemplate();
+	button.init();
 	
 	clock.start();
 	displayTimer.Enable();
