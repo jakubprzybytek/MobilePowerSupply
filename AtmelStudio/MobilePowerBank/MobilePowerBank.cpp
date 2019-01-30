@@ -36,7 +36,7 @@ uint16_t count;
  ***************** */
 ISR (RTC_OVF_vect) {
 	clock.countSecond();
-	ampsConsumed += metter.inCurrentValue;
+	ampsConsumed += metter.measurements.inCurrentValue;
 	
 	if (screen.isActive()) {
 		screen.drawTime(clock.days, clock.hours, clock.minutes, clock.seconds);
@@ -50,7 +50,7 @@ ISR (RTC_OVF_vect) {
 ISR (TCC0_OVF_vect) {
 	PORTF.OUTTGL = PIN2_bm;
 	if (screen.isActive()) {
-		screen.drawElectricParams(metter.inVoltageValue, metter.inCurrentValue, metter.out2VoltageValue, metter.out2CurrentValue, metter.out3VoltageValue, metter.out3CurrentValue);
+		screen.drawElectricParams(metter.measurements);
 	}
 	metter.start();
 }

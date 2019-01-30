@@ -14,21 +14,30 @@
 #define OUT2_VOLTAGE_A_FACTOR 0.03015
 #define OUT2_VOLTAGE_B_FACTOR 0.0
 #define OUT2_CURRENT_A_FACTOR 0.11
-#define OUT2_CURRENT_B_FACTOR -22.8
-//#define OUT2_CURRENT_A_FACTOR 1.0
-//#define OUT2_CURRENT_B_FACTOR 0.0
-#define OUT3_VOLTAGE_A_FACTOR 0.03015
+#define OUT2_CURRENT_B_FACTOR -20.8
+//#define OUT2_CURRENT_B_FACTOR -22.8
+#define OUT3_VOLTAGE_A_FACTOR 0.030203
 #define OUT3_VOLTAGE_B_FACTOR 0.0
 #define OUT3_CURRENT_A_FACTOR 0.11
-#define OUT3_CURRENT_B_FACTOR -22.8
-//#define OUT3_CURRENT_A_FACTOR 1.0
-//#define OUT3_CURRENT_B_FACTOR 0.0
+#define OUT3_CURRENT_B_FACTOR -20.8
+#define OUT4_VOLTAGE_A_FACTOR 0.030736
+#define OUT4_VOLTAGE_B_FACTOR 0.0
+#define OUT4_CURRENT_A_FACTOR 0.11
+#define OUT4_CURRENT_B_FACTOR -19.3
+#define OUT5_VOLTAGE_A_FACTOR 0.03015
+#define OUT5_VOLTAGE_B_FACTOR 0.0
+#define OUT5_CURRENT_A_FACTOR 0.11
+#define OUT5_CURRENT_B_FACTOR -20.8
 
 /**
  * PORT A: 
  ** ADC1 / ADC2 - Out 3 Curr / Volt, 
  ** ADC3 / ADC4 - Out 2 Curr / Volt,
- */
+ **
+ * PORT B:
+ ** ADC1 / ADC2 - Out 4 Curr / Volt
+ ** ADC5 / ADC6 - IN    Curr / Volt
+*/
 
 //static uint8_t adcAInputs[] = { ADC3, ADC4 };
 
@@ -36,9 +45,9 @@
 
 void Metter::init() {
 	adcA.init();
-	adcA.setInput(ADC3, ADC4, ADC1, ADC2);
+	adcA.setInput(ADC1, ADC2, ADC3, ADC4);
 	adcB.init();
-	adcB.setInput(ADC5, ADC6, ADC3, ADC4);
+	adcB.setInput(ADC1, ADC2, ADC5, ADC6);
 
 	DMAC::enable();
 
@@ -68,10 +77,10 @@ void Metter::storeReadoutA() {
 
 	dmaA.readBlockByChannels(&first, &second, &third, &fourth);
 
-	out2VoltageValue = second * OUT2_VOLTAGE_A_FACTOR + OUT2_VOLTAGE_B_FACTOR;
-	out2CurrentValue = first * OUT2_CURRENT_A_FACTOR + OUT2_CURRENT_B_FACTOR;
-	out3VoltageValue = fourth * OUT3_VOLTAGE_A_FACTOR + OUT3_VOLTAGE_B_FACTOR;
-	out3CurrentValue = third * OUT3_CURRENT_A_FACTOR + OUT3_CURRENT_B_FACTOR;
+	measurements.out2VoltageValue = fourth * OUT2_VOLTAGE_A_FACTOR + OUT2_VOLTAGE_B_FACTOR;
+	measurements.out2CurrentValue = third * OUT2_CURRENT_A_FACTOR + OUT2_CURRENT_B_FACTOR;
+	measurements.out3VoltageValue = second * OUT3_VOLTAGE_A_FACTOR + OUT3_VOLTAGE_B_FACTOR;
+	measurements.out3CurrentValue = first * OUT3_CURRENT_A_FACTOR + OUT3_CURRENT_B_FACTOR;
 }
 
 void Metter::storeReadoutB() {
@@ -82,8 +91,10 @@ void Metter::storeReadoutB() {
 
 	dmaB.readBlockByChannels(&first, &second, &third, &fourth);
 
-	inVoltageValue = second * IN_VOLTAGE_A_FACTOR + IN_VOLTAGE_B_FACTOR;
-	inCurrentValue = first * IN_CURRENT_A_FACTOR + IN_CURRENT_B_FACTOR;
+	measurements.inVoltageValue = fourth * IN_VOLTAGE_A_FACTOR + IN_VOLTAGE_B_FACTOR;
+	measurements.inCurrentValue = third * IN_CURRENT_A_FACTOR + IN_CURRENT_B_FACTOR;
+	measurements.out4VoltageValue = second * OUT4_VOLTAGE_A_FACTOR + OUT4_VOLTAGE_B_FACTOR;
+	measurements.out4CurrentValue = first * OUT4_CURRENT_A_FACTOR + OUT4_CURRENT_B_FACTOR;
 
 /*
 	switch (activeADC) {

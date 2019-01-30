@@ -11,6 +11,19 @@
 #include "../Peripheral/ADC.h"
 #include "../Peripheral/DMA.h"
 
+struct Measurements {
+	uint16_t inVoltageValue;
+	uint16_t inCurrentValue;
+	uint16_t out2VoltageValue;
+	uint16_t out2CurrentValue;
+	uint16_t out3VoltageValue;
+	uint16_t out3CurrentValue;
+	uint16_t out4VoltageValue;
+	uint16_t out4CurrentValue;
+	uint16_t out5VoltageValue;
+	uint16_t out5CurrentValue;
+};
+
 class Metter {
 
 private:
@@ -20,15 +33,10 @@ private:
 	DMAC dmaA;
 	DMAC dmaB;
 
-public:
 	uint8_t activeADC;
 
-	uint16_t inVoltageValue;
-	uint16_t inCurrentValue;
-	uint16_t out2VoltageValue;
-	uint16_t out2CurrentValue;
-	uint16_t out3VoltageValue;
-	uint16_t out3CurrentValue;
+public:
+	Measurements measurements;
 
 public:
 	Metter() : 
