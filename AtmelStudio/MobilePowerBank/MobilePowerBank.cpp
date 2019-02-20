@@ -52,6 +52,7 @@ ISR (TCC0_OVF_vect) {
 	if (screen.isActive()) {
 		screen.drawElectricParams(metter.measurements);
 	}
+	metter.toggleInput();
 	metter.start();
 }
 
@@ -59,6 +60,7 @@ ISR (TCC0_OVF_vect) {
  * DMA CH0: DMA transaction finished interrupt
  ***************** */
 ISR (DMA_CH0_vect) {
+	metter.stopA();
 	metter.storeReadoutA();
 	DMA.INTFLAGS = DMA_CH0TRNIF_bm;
 }
@@ -67,6 +69,7 @@ ISR (DMA_CH0_vect) {
  * DMA CH1: DMA transaction finished interrupt
  ***************** */
 ISR (DMA_CH1_vect) {
+	metter.stopB();
 	metter.storeReadoutB();
 	DMA.INTFLAGS = DMA_CH1TRNIF_bm;
 }
@@ -78,7 +81,7 @@ ISR (PORTF_INT0_vect) {
 	if (screen.isActive()) {
 		screen.shutdown();
 	} else {
-		screen.init();
+		screen.init(false);
 	}
 }
 
@@ -88,7 +91,7 @@ int main(void)
 
 	Timer displayTimer(&TCC0, 200);
 
-	screen.init();
+	screen.init(true);
 	metter.init();
 	clock.init();
 	displayTimer.Init(TC_OVFINTLVL_LO_gc);

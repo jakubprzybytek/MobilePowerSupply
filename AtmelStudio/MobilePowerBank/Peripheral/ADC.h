@@ -10,12 +10,14 @@
 
 #include <avr/io.h>
 
+#define ADC0  0
 #define ADC1  ADC_CH_MUXPOS0_bm
 #define ADC2  ADC_CH_MUXPOS1_bm
 #define ADC3  ADC_CH_MUXPOS1_bm | ADC_CH_MUXPOS0_bm
 #define ADC4  ADC_CH_MUXPOS2_bm
 #define ADC5  ADC_CH_MUXPOS2_bm | ADC_CH_MUXPOS0_bm
 #define ADC6  ADC_CH_MUXPOS2_bm | ADC_CH_MUXPOS1_bm
+#define ADC7  ADC_CH_MUXPOS2_bm | ADC_CH_MUXPOS1_bm | ADC_CH_MUXPOS0_bm
 
 class ADC {
 
@@ -36,7 +38,7 @@ public:
 
 	void setInput(uint8_t input1, uint8_t input2, uint8_t input3, uint8_t input4);
 	void start();
-
+	void stop();
 };
 
 #endif /* ADC_H_ */

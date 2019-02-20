@@ -17,7 +17,7 @@
 class Screen {
 
 public:
-	void init();
+	void init(bool clean);
 	void shutdown();
 	bool isActive();
 

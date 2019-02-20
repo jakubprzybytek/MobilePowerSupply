@@ -14,10 +14,12 @@
 struct Measurements {
 	uint16_t inVoltageValue;
 	uint16_t inCurrentValue;
+	uint16_t out1VoltageValue;
+	uint16_t out1CurrentValue;
 	uint16_t out2VoltageValue;
 	uint16_t out2CurrentValue;
 	uint16_t out3VoltageValue;
-	uint16_t out3CurrentValue;
+	int16_t out3CurrentValue;
 	uint16_t out4VoltageValue;
 	uint16_t out4CurrentValue;
 	uint16_t out5VoltageValue;
@@ -48,6 +50,8 @@ public:
 
 	void toggleInput();
 	void start();
+	void stopA();
+	void stopB();
 
 	void storeReadoutA();
 	void storeReadoutB();

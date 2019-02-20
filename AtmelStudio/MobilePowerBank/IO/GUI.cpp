@@ -12,6 +12,8 @@
 
 #include "../Fonts/font.h"
 
+#define MIN(a,b) ((a) < (b) ? (a) : (b))
+
 bool isActive = false;
 
 void GUI_Init() {
@@ -40,8 +42,6 @@ void GUI_Init() {
 		
 	OLED_Set_Display_On_Off(0x01);
 
-	GUI_Clean();
-
 	isActive = true;
 }
 
@@ -65,14 +65,14 @@ void GUI_print3(char* text, unsigned char x, unsigned char y, unsigned char patt
 	
 	OLED_Set_Remap_Format(0x56);
 
-	OLED_Set_Column_Address(x, x + strLen * 3 - 1);
+	OLED_Set_Column_Address(x, MIN (x + strLen * 3 - 1, MAX_X));
 	OLED_Set_Row_Address(y, y + 6);
 
 	OLED_DATA
 	
 	unsigned char left, right;
 	
-	for (uint8_t i = 0; i < strLen; i++)	{
+	for (uint8_t i = 0; i < strLen; i++) {
 		
 		unsigned int charIndex = (text[i] - ' ') * 5;
 		

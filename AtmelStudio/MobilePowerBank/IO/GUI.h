@@ -11,6 +11,8 @@
 
 #include <stdbool.h>
 
+#define MAX_X 63
+
 void GUI_Init();
 void GUI_Shutdown();
 bool GUI_IsActive();

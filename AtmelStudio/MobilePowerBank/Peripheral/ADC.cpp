@@ -33,7 +33,9 @@ void ADC::setInput(uint8_t input1, uint8_t input2, uint8_t input3, uint8_t input
 }
 
 void ADC::start() {
-	//adc->CTRLA |= (3 << (ADC_CH0START_bp + channelNumber)); //ADC_CH0START_bm;
 	adc->CTRLB = ADC_FREERUN_bm;
 };
 
+void ADC::stop() {
+	adc->CTRLB &= !ADC_FREERUN_bm;
+};
