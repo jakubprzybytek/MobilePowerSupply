@@ -12,7 +12,7 @@
 #define MAIN_DIM_PATTERN 0x44
 
 #define BATT_MIN 223
-#define BATT_MAX 295
+#define BATT_MAX 294
 
 char buffer[22];
 
@@ -34,8 +34,8 @@ bool Screen::isActive() {
 }
 
 void Screen::drawTemplate() {
-	sprintf(buffer, "I");
-	GUI_print3(buffer, 3, 0, TEMPLATE_PATTERN);
+	sprintf(buffer, "In");
+	GUI_print3(buffer, 0, 0, TEMPLATE_PATTERN);
 
 	sprintf(buffer, "O1");
 	GUI_print3(buffer, 0, 10, TEMPLATE_PATTERN);
@@ -51,9 +51,6 @@ void Screen::drawTemplate() {
 
 	sprintf(buffer, "O5");
 	GUI_print3(buffer, 0, 42, TEMPLATE_PATTERN);
-
-	//sprintf(buffer, "Eta=");
-	//GUI_print3(buffer, 30, 30, 0x44);
 
 	sprintf(buffer, "Ah");
 	GUI_print3(buffer, 0, 57, TEMPLATE_PATTERN);
@@ -99,11 +96,6 @@ void Screen::drawElectricParams(Measurements& m) {
 	// Batt
 	sprintf(buffer, "%u%%", (m.inVoltageValue - BATT_MIN) * 100 / (BATT_MAX - BATT_MIN));
 	GUI_print3(buffer, 55, 57, MAIN_PATTERN);
-
-	// eta
-	//uint16_t eta = (output2Power * 1000) / inputPower;
-	//sprintf(buffer, "%u.%u%% ", eta / 10, eta % 10);
-	//GUI_print3(buffer, 42, 30, 0xee);
 }
 
 void Screen::drawTime(uint8_t days, uint8_t hours, uint8_t minutes, uint8_t seconds) {
