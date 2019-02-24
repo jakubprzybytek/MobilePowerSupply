@@ -52,14 +52,11 @@ void Screen::drawTemplate() {
 	sprintf(buffer, "O5");
 	GUI_print3(buffer, 0, 42, TEMPLATE_PATTERN);
 
-	sprintf(buffer, "Ah");
-	GUI_print3(buffer, 0, 57, TEMPLATE_PATTERN);
-
-	sprintf(buffer, "T");
-	GUI_print3(buffer, 22, 57, TEMPLATE_PATTERN);
+	sprintf(buffer, "t");
+	GUI_print3(buffer, 22, 55, TEMPLATE_PATTERN);
 
 	sprintf(buffer, "B");
-	GUI_print3(buffer, 51, 57, TEMPLATE_PATTERN);
+	GUI_print3(buffer, 51, 55, TEMPLATE_PATTERN);
 }
 
 void Screen::drawElectricParams(Measurements& m) {
@@ -95,16 +92,27 @@ void Screen::drawElectricParams(Measurements& m) {
 
 	// Batt
 	sprintf(buffer, "%u%%", (m.inVoltageValue - BATT_MIN) * 100 / (BATT_MAX - BATT_MIN));
-	GUI_print3(buffer, 55, 57, MAIN_PATTERN);
+	GUI_print3(buffer, 55, 55, MAIN_PATTERN);
 }
 
 void Screen::drawTime(uint8_t days, uint8_t hours, uint8_t minutes, uint8_t seconds) {
 	sprintf(buffer, "%u:%02u:%02u", hours, minutes, seconds);
-	GUI_print3(buffer, 26, 57, 0xee);
+	GUI_print3(buffer, 26, 55, 0xee);
 }
 
 void Screen::drawAmpsConsumed(uint32_t ampsConsumed) {
+	sprintf(buffer, "Ah");
+	GUI_print3(buffer, 0, 55, TEMPLATE_PATTERN);
+
 	uint16_t ampHours = ampsConsumed / 3600;
 	sprintf(buffer, "%u.%02u", ampHours / 100, ampHours % 100);
-	GUI_print3(buffer, 7, 57, 0xee);
+	GUI_print3(buffer, 7, 55, 0xee);
+}
+
+void Screen::drawTemperature(uint8_t temp) {
+	sprintf(buffer, " T");
+	GUI_print3(buffer, 0, 55, TEMPLATE_PATTERN);
+
+	sprintf(buffer, "%u`C", temp);
+	GUI_print3(buffer, 7, 55, 0xee);
 }

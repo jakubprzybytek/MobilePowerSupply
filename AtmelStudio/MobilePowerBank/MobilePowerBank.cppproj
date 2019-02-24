@@ -170,6 +170,12 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Devices\TC74.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Devices\TC74.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Fonts\font.h">
       <SubType>compile</SubType>
     </Compile>
@@ -194,6 +200,9 @@
     <Compile Include="MobilePowerBank.cpp">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="MobilePowerBank.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Peripheral\ADC.cpp">
       <SubType>compile</SubType>
     </Compile>
@@ -210,6 +219,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Peripheral\RTC.hpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Peripheral\TWI.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Peripheral\TWI.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Screen.cpp">
@@ -234,6 +249,7 @@
   <ItemGroup>
     <Folder Include="Fonts\" />
     <Folder Include="IO\" />
+    <Folder Include="Devices" />
     <Folder Include="Peripheral\" />
     <Folder Include="Tools\" />
   </ItemGroup>

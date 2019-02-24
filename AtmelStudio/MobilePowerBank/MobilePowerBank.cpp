@@ -11,7 +11,11 @@
 
 #include <stdio.h>
 
+#include "MobilePowerBank.h"
+
 #include "Screen.hpp"
+
+#include "Devices/TC74.h"
 
 #include "IO/GUI.h"
 #include "IO/Metter.h"
@@ -23,9 +27,11 @@
 
 Screen screen;
 Metter metter;
+TC74 termometer;
 
 Clock clock;
 uint32_t ampsConsumed; // per second
+uint8_t temp;
 
 InterruptSwitch button(&PORTF, PIN3_bm, &(PORTF.PIN3CTRL));
 
@@ -37,11 +43,8 @@ uint16_t count;
 ISR (RTC_OVF_vect) {
 	clock.countSecond();
 	ampsConsumed += metter.measurements.inCurrentValue;
-	
-	if (screen.isActive()) {
-		screen.drawTime(clock.days, clock.hours, clock.minutes, clock.seconds);
-		screen.drawAmpsConsumed(ampsConsumed);
-	}
+
+	drawEnvironmentalParams();
 }
 
 /* *****************
@@ -85,6 +88,23 @@ ISR (PORTF_INT0_vect) {
 	}
 }
 
+void drawEnvironmentalParams() {
+	if (clock.seconds % 10 == 0) { // every ten seconds
+		temp = termometer.readTemperature();
+	}
+
+	if (screen.isActive()) {
+		screen.drawTime(clock.days, clock.hours, clock.minutes, clock.seconds);
+
+		if (clock.seconds % 10 == 0) {
+			screen.drawTemperature(temp);
+		}
+		if ((clock.seconds + 5) % 10 == 0) {
+			screen.drawAmpsConsumed(ampsConsumed);
+		}
+	}
+}
+
 int main(void)
 {
 	PORTF.DIRSET = PIN2_bm;
@@ -96,6 +116,7 @@ int main(void)
 	clock.init();
 	displayTimer.Init(TC_OVFINTLVL_LO_gc);
 	button.init();
+	termometer.init();
 	
 	clock.start();
 	displayTimer.Enable();
@@ -104,7 +125,9 @@ int main(void)
 	PMIC.CTRL = PMIC_HILVLEN_bm | PMIC_MEDLVLEN_bm | PMIC_LOLVLEN_bm;
 	sei();
 
-    while (1) 
-    { }
+	drawEnvironmentalParams();
+
+    while (1) {
+	}
 }
 
