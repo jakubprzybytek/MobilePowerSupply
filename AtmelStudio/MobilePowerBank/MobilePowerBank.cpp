@@ -21,9 +21,11 @@
 #include "IO/Metter.h"
 
 #include "Peripheral/RTC.hpp"
+#include "Peripheral/AC.hpp"
 
 #include "Tools/Timer.hpp"
 #include "Tools/Switch.hpp"
+#include "Tools/EEPROM.hpp"
 
 Screen screen;
 Metter metter;
@@ -35,7 +37,7 @@ uint8_t temp;
 
 InterruptSwitch button(&PORTF, PIN3_bm, &(PORTF.PIN3CTRL));
 
-uint16_t count;
+EEPROMInterface eeprom;
 
 /* *****************
  * RTC: 1 sec INT
@@ -44,14 +46,14 @@ ISR (RTC_OVF_vect) {
 	clock.countSecond();
 	ampsConsumed += metter.measurements.inCurrentValue;
 
-	drawEnvironmentalParams();
+	drawEnvironmentalParams(false);
 }
 
 /* *****************
  * TCC5: Display refresh timer interrupt
  ***************** */
 ISR (TCC0_OVF_vect) {
-	PORTF.OUTTGL = PIN2_bm;
+	LED_TOGGLE
 	if (screen.isActive()) {
 		screen.drawElectricParams(metter.measurements);
 	}
@@ -88,15 +90,24 @@ ISR (PORTF_INT0_vect) {
 	}
 }
 
-void drawEnvironmentalParams() {
-	if (clock.seconds % 10 == 0) { // every ten seconds
+/* *****************
+ * ACB: Falling edge detected in input voltage
+***************** */
+ISR (ACB_AC0_vect) {
+	screen.shutdown();
+	LED_SET
+	eeprom.storeData(clock, &ampsConsumed);
+}
+
+void drawEnvironmentalParams(bool firstDraw) {
+	if (clock.seconds % 10 == 0 || firstDraw) { // every ten seconds
 		temp = termometer.readTemperature();
 	}
 
 	if (screen.isActive()) {
 		screen.drawTime(clock.days, clock.hours, clock.minutes, clock.seconds);
 
-		if (clock.seconds % 10 == 0) {
+		if (clock.seconds % 10 == 0 || firstDraw) {
 			screen.drawTemperature(temp);
 		}
 		if ((clock.seconds + 5) % 10 == 0) {
@@ -107,25 +118,29 @@ void drawEnvironmentalParams() {
 
 int main(void)
 {
-	PORTF.DIRSET = PIN2_bm;
-
 	Timer displayTimer(&TCC0, 200);
+	AC inputPowerComparator(&ACB);
 
+	LED_INIT
 	screen.init(true);
 	metter.init();
 	clock.init();
 	displayTimer.Init(TC_OVFINTLVL_LO_gc);
 	button.init();
 	termometer.init();
+	inputPowerComparator.init();
 	
-	clock.start();
 	displayTimer.Enable();
+	inputPowerComparator.start();
+
+	eeprom.loadData(clock, &ampsConsumed);
+	clock.start();
 
 	// enable interrupts
 	PMIC.CTRL = PMIC_HILVLEN_bm | PMIC_MEDLVLEN_bm | PMIC_LOLVLEN_bm;
 	sei();
 
-	drawEnvironmentalParams();
+	drawEnvironmentalParams(true);
 
     while (1) {
 	}

@@ -91,7 +91,11 @@ void Screen::drawElectricParams(Measurements& m) {
 	GUI_print3(buffer, 7, 42, m.out5CurrentValue > 0 ? MAIN_PATTERN : MAIN_DIM_PATTERN);
 
 	// Batt
-	sprintf(buffer, "%u%%", (m.inVoltageValue - BATT_MIN) * 100 / (BATT_MAX - BATT_MIN));
+	if (m.inVoltageValue >= BATT_MIN && m.inVoltageValue <= BATT_MAX) {
+		sprintf(buffer, "%02u%%", (m.inVoltageValue - BATT_MIN) * 100 / (BATT_MAX - BATT_MIN));
+	} else {
+		sprintf(buffer, "!!!");
+	}
 	GUI_print3(buffer, 55, 55, MAIN_PATTERN);
 }
 
