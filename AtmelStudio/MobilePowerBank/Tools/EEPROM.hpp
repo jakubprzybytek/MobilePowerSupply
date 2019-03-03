@@ -12,12 +12,13 @@
 #include "../Peripheral/RTC.hpp"
 
 #define EEPROM_PAGE 0
-#define EEPROM_DATA_VERSION 3
+#define EEPROM_DATA_VERSION 4
 
 class EEPROMInterface {
 
 private:
 	uint8_t eepromPageBuffer[EEPROM_PAGESIZE];
+	uint16_t eepromWrites;
 
 public:
 	void init();

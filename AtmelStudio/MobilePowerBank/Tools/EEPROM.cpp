@@ -19,6 +19,8 @@ void EEPROMInterface::loadData(Clock& clock, uint32_t* ampsConsumed) {
 		return;
 	}
 
+	((uint8_t*) &eepromWrites)[0] = EEPROM_ReadByte(EEPROM_PAGE, byteAddr++);
+	((uint8_t*) &eepromWrites)[1] = EEPROM_ReadByte(EEPROM_PAGE, byteAddr++);
 	clock.days = EEPROM_ReadByte(EEPROM_PAGE, byteAddr++);
 	clock.hours = EEPROM_ReadByte(EEPROM_PAGE, byteAddr++);
 	clock.minutes = EEPROM_ReadByte(EEPROM_PAGE, byteAddr++);
@@ -31,7 +33,11 @@ void EEPROMInterface::loadData(Clock& clock, uint32_t* ampsConsumed) {
 
 void EEPROMInterface::storeData(Clock& clock, uint32_t* ampsConsumed) {
 	uint8_t byteAddr = 0;
+	eepromWrites++;
+
 	eepromPageBuffer[byteAddr++] = EEPROM_DATA_VERSION;
+	eepromPageBuffer[byteAddr++] = ((uint8_t*) &eepromWrites)[0];
+	eepromPageBuffer[byteAddr++] = ((uint8_t*) &eepromWrites)[1];
 	eepromPageBuffer[byteAddr++] = clock.days;
 	eepromPageBuffer[byteAddr++] = clock.hours;
 	eepromPageBuffer[byteAddr++] = clock.minutes;
