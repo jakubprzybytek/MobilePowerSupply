@@ -26,6 +26,7 @@ public:
 	void drawTime(uint8_t days, uint8_t hours, uint8_t minutes, uint8_t seconds);
 	void drawAmpsConsumed(uint32_t ampsConsumed);
 	void drawTemperature(uint8_t temp);
+	void drawSecondsToReset(uint8_t seconds);
 };
 
 #endif /* SCREEN_H_ */

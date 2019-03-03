@@ -20,7 +20,9 @@ public:
 
 	void init();
 	void start();
+
 	void countSecond();
+	void reset();
 };
 
 #endif /* RTC_H_ */

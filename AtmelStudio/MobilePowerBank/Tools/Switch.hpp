@@ -25,7 +25,7 @@ public:
 	void disableInterrupt();
 
 	bool isUp();
-
+	bool isDown();
 };
 
 #endif /* SWITCH_H_ */

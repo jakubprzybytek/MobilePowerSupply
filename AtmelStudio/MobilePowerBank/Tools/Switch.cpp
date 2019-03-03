@@ -29,3 +29,7 @@ void InterruptSwitch::disableInterrupt() {
 bool InterruptSwitch::isUp() {
 	return port->IN & pin;
 }
+
+bool InterruptSwitch::isDown() {
+	return !port->IN & pin;
+}

@@ -45,3 +45,10 @@ void Clock::countSecond() {
 		}
 	}
 }
+
+void Clock::reset() {
+	seconds = 0;
+	minutes = 0;
+	hours = 0;
+	days = 0;
+}

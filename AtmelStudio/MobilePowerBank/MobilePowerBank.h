@@ -8,10 +8,13 @@
 #ifndef MOBILEPOWERBANK_H_
 #define MOBILEPOWERBANK_H_
 
+#define MIN(a,b) ((a) < (b) ? (a) : (b))
+#define MAX(a,b) ((a) > (b) ? (a) : (b))
+
 #define LED_INIT	PORTF.DIRSET = PIN2_bm; PORTF.OUTSET = PIN2_bm;
 #define LED_SET		PORTF.OUTCLR = PIN2_bm;
 #define LED_TOGGLE	PORTF.OUTTGL = PIN2_bm;
 
-void drawEnvironmentalParams(bool firstDraw);
+void drawStatusBar(bool firstDraw);
 
 #endif /* MOBILEPOWERBANK_H_ */
