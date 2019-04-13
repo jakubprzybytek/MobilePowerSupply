@@ -11,6 +11,9 @@
 #include "../Peripheral/ADC.h"
 #include "../Peripheral/DMA.h"
 
+#define ADC_CHANNELS 4
+#define READS_TO_AVARAGE 128
+
 struct Measurements {
 	uint16_t inVoltageValue;
 	uint16_t inCurrentValue;
@@ -37,6 +40,9 @@ private:
 
 	uint8_t activeADC;
 
+	uint16_t* readsBufferA;
+	uint16_t* readsBufferB;
+
 public:
 	Measurements measurements;
 
@@ -52,6 +58,8 @@ public:
 	void start();
 	void stopA();
 	void stopB();
+
+	void readBlockByChannels(uint16_t* buffer, uint16_t* first, uint16_t* second, uint16_t* third, uint16_t* fourth);
 
 	void storeReadoutA();
 	void storeReadoutB();

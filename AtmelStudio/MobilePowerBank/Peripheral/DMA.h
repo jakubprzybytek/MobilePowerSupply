@@ -8,26 +8,21 @@
 #ifndef DMA_H_
 #define DMA_H_
 
-#define CHANNELS 4
-
 class DMAC {
 
 private:
 	DMA_CH_t* channel;
-	uint16_t avgLen;
-
-	uint16_t* readsBuffer;
 
 public:
 	DMAC(DMA_CH_t* channel) : channel(channel) {};
 	
 	static void enable();
 
-	void init(register16_t* adcResAddress, uint8_t TRIGSRC, uint16_t avgLen);
+	void init(register16_t* sourceAddress, void* targetAddress, uint8_t TRIGSRC, uint8_t burstLen, uint8_t burstLenBm, uint16_t blockSize);
+	void initSourceReloadOnBurstDestReloadOnTransaction();
+	void initSourceReloadOnTransactionDestReloadOnBurst();
 
 	void start();
-
-	void readBlockByChannels(uint16_t* first, uint16_t* second, uint16_t* third, uint16_t* fourth);
 };
 
 #endif /* DMA_H_ */

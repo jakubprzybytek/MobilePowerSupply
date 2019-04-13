@@ -31,5 +31,5 @@ bool InterruptSwitch::isUp() {
 }
 
 bool InterruptSwitch::isDown() {
-	return !port->IN & pin;
+	return !(port->IN & pin);
 }

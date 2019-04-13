@@ -4,6 +4,7 @@
  * Created: 2018-04-21 19:51:25
  *  Author: Rodos
  */ 
+#include <stdlib.h>
 
 #include "Metter.h"
 
@@ -51,10 +52,15 @@ void Metter::init() {
 	adcA.init();
 	adcB.init();
 
+	this->readsBufferA = (uint16_t*) malloc(sizeof(uint16_t) * ADC_CHANNELS * READS_TO_AVARAGE);
+	this->readsBufferB = (uint16_t*) malloc(sizeof(uint16_t) * ADC_CHANNELS * READS_TO_AVARAGE);
+
 	DMAC::enable();
 
-	dmaA.init(&ADCA.CH0RES, 0x13, 128);
-	dmaB.init(&ADCB.CH0RES, 0x23, 128);
+	dmaA.init(&ADCA.CH0RES, this->readsBufferA, 0x13, sizeof(uint16_t) * ADC_CHANNELS, DMA_CH_BURSTLEN1_bm | DMA_CH_BURSTLEN0_bm, READS_TO_AVARAGE); // burst mode 8B = 4 x ADC.RES(2B), block size = READS_TO_AVARAGE
+	dmaA.initSourceReloadOnBurstDestReloadOnTransaction();
+	dmaB.init(&ADCB.CH0RES, this->readsBufferB, 0x23, sizeof(uint16_t) * ADC_CHANNELS, DMA_CH_BURSTLEN1_bm | DMA_CH_BURSTLEN0_bm, READS_TO_AVARAGE); // burst mode 8B = 4 x ADC.RES(2B), block size = READS_TO_AVARAGE
+	dmaB.initSourceReloadOnBurstDestReloadOnTransaction();
 }
 
 void Metter::toggleInput() {
@@ -85,13 +91,32 @@ void Metter::stopB() {
 	adcB.stop();
 }
 
+void Metter::readBlockByChannels(uint16_t* buffer, uint16_t* first, uint16_t* second, uint16_t* third, uint16_t* fourth) {
+	uint32_t firstTemp = 0;
+	uint32_t secondTemp = 0;
+	uint32_t thirdTemp = 0;
+	uint32_t fourthTemp = 0;
+
+	for (uint16_t i = 0; i < READS_TO_AVARAGE * 4;) { // four channels
+		firstTemp += buffer[i++];
+		secondTemp += buffer[i++];
+		thirdTemp += buffer[i++];
+		fourthTemp += buffer[i++];
+	}
+
+	*first = firstTemp / READS_TO_AVARAGE;
+	*second = secondTemp / READS_TO_AVARAGE;
+	*third = thirdTemp / READS_TO_AVARAGE;
+	*fourth = fourthTemp / READS_TO_AVARAGE;
+}
+
 void Metter::storeReadoutA() {
 	uint16_t first;
 	uint16_t second;
 	uint16_t third;
 	uint16_t fourth;
 
-	dmaA.readBlockByChannels(&first, &second, &third, &fourth);
+	readBlockByChannels(this->readsBufferA, &first, &second, &third, &fourth);
 
 	if (activeADC == 0) {
 		measurements.out2VoltageValue = fourth * OUT2_VOLTAGE_A_FACTOR + OUT2_VOLTAGE_B_FACTOR;
@@ -111,7 +136,7 @@ void Metter::storeReadoutB() {
 	uint16_t third;
 	uint16_t fourth;
 
-	dmaB.readBlockByChannels(&first, &second, &third, &fourth);
+	readBlockByChannels(this->readsBufferB, &first, &second, &third, &fourth);
 
 	if (activeADC == 0) {
 		measurements.inVoltageValue = fourth * IN_VOLTAGE_A_FACTOR + IN_VOLTAGE_B_FACTOR;
