@@ -7211,7 +7211,7 @@
       (net 64 OUT_3_Current))
     (pad 64 smd rect (at -6 7.7) (size 1.5 0.55) (layers B.Cu B.Paste B.Mask)
       (net 62 OUT_3_Voltage))
-    (model ${KISYS3DMOD}/Housings_QFP.3dshapes/TQFP-64_14x14mm_Pitch0.8mm.wrl
+    (model ${KISYS3DMOD}/Package_QFP.3dshapes/TQFP-64_14x14mm_P0.8mm.wrl
       (at (xyz 0 0 0))
       (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))

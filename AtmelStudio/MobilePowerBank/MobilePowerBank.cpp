@@ -14,11 +14,13 @@
 #include "MobilePowerBank.h"
 
 #include "Screen.hpp"
+#include "Events.h"
 
 #include "Devices/TC74.h"
 
 #include "IO/GUI.h"
 #include "IO/Metter.h"
+#include "IO/SerialCom.h"
 
 #include "Peripheral/RTC.hpp"
 #include "Peripheral/AC.hpp"
@@ -28,6 +30,7 @@
 #include "Tools/EEPROM.hpp"
 
 Screen screen;
+SerialCom serialCom;
 Metter metter;
 TC74 termometer;
 
@@ -41,6 +44,8 @@ uint16_t buttonCounter;
 uint8_t secondsToReset;
 
 EEPROMInterface eeprom;
+
+volatile Event event = NOP;
 
 /* *****************
  * RTC: 1 sec INT (Low)
@@ -114,6 +119,16 @@ ISR (PORTF_INT0_vect) {
 }
 
 /* *****************
+ * USART C1: Received data (Low)
+ ***************** */
+ISR (USARTC1_RXC_vect) {
+	uint8_t data = USARTC1.DATA;
+	if (serialCom.processReceivedData(data)) {
+		event = USART_MESSAGE_RECEIVED;
+	}
+}
+
+/* *****************
  * DMA CH0: DMA transaction finished interrupt (Medium)
  ***************** */
 ISR (DMA_CH0_vect) {
@@ -161,6 +176,18 @@ void drawStatusBar(bool firstDraw) {
 	}
 }
 
+void sendChar(char c) {
+	while( !(USARTC1.STATUS & USART_DREIF_bm) ); //Wait until DATA buffer is empty
+	USARTC1.DATA = c;
+}
+
+void sendString(char *text) {
+	while (*text) {
+		sendChar(*text++);
+	}
+}
+
+
 int main(void)
 {
 	Timer displayTimer(&TCC0, 200);
@@ -168,6 +195,7 @@ int main(void)
 
 	LED_INIT
 	screen.init(true);
+	serialCom.init();
 	metter.init();
 	clock.init();
 	displayTimer.Init(TC_OVFINTLVL_LO_gc);
@@ -189,6 +217,11 @@ int main(void)
 	drawStatusBar(true);
 
     while (1) {
+		if (event == USART_MESSAGE_RECEIVED) {
+			serialCom.getReceivedData();
+			sendString("Hello world\n");
+			event = NOP;
+		}
 	}
 }
 

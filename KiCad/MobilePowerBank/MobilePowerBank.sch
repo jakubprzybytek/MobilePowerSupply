@@ -1379,7 +1379,7 @@ Entry Wire Line
 Entry Wire Line
 	16800 13000 16900 12900
 Wire Bus Line
-	16800 13950 14300 13950
+	16800 14500 14300 14500
 Text Label 11450 14150 2    60   ~ 0
 OLED_D6
 Text Label 11450 14050 2    60   ~ 0
@@ -6020,12 +6020,28 @@ Text Notes 6750 4500 0    50   ~ 0
 3.9/(47+3.9) * 12V = 0.92V
 Text Notes 7050 1250 0    50   ~ 0
 4.7/(100+4.7) * 12V = 0.90V
+Text Notes 950  4150 0    50   ~ 0
+2k2/(2k2+68k)=0.03  (1/32)
+Text GLabel 13800 14150 2    50   Input ~ 0
+BT_RXD
+Text GLabel 13800 14250 2    50   Input ~ 0
+BT_TXD
+Wire Wire Line
+	13800 14150 13550 14150
+Wire Wire Line
+	13550 14250 13800 14250
+Text GLabel 13800 13750 2    50   Input ~ 0
+BT_A
+Text GLabel 13800 13950 2    50   Input ~ 0
+BT_B
+Wire Wire Line
+	13800 13750 13550 13750
+Wire Wire Line
+	13550 13950 13800 13950
 Wire Bus Line
-	14300 13950 14300 15650
+	14300 14500 14300 15650
 Wire Bus Line
 	10800 13650 10800 15650
 Wire Bus Line
-	16800 12300 16800 13950
-Text Notes 950  4150 0    50   ~ 0
-2k2/(2k2+68k)=0.03  (1/32)
+	16800 12300 16800 14500
 $EndSCHEMATC
