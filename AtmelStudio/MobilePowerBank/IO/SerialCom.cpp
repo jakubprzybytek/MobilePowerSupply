@@ -54,9 +54,10 @@ void SerialCom::sendHelp() {
 	char* buffer = this->transmitBuffer;
 	buffer += sprintf(buffer, "Power Mobile Bank\n");
 	buffer += sprintf(buffer, "Commands:\n");
-	buffer += sprintf(buffer, "s - current status\n");
-	buffer += sprintf(buffer, "r - reset timer and counter of consumed amps\n");
-	buffer += sprintf(buffer, "any other - this help\n");
+	buffer += sprintf(buffer, " s - print current status\n");
+	buffer += sprintf(buffer, " r - reset timer and counter of consumed amps\n");
+	buffer += sprintf(buffer, " d - print debug information\n");
+	buffer += sprintf(buffer, " any other - this help\n");
 
 	sprintf(buffer, "Sent %u bytes.\n", strlen(this->transmitBuffer) + 16);
 	this->transmitDMA.start(strlen(this->transmitBuffer));
@@ -94,17 +95,13 @@ void SerialCom::sendData(Measurements& m, Clock& clock, uint32_t ampsConsumed, u
 	buffer += sprintf(buffer, "Amps consumed: %u.%02u [A/h]\n", ampHours / 100, ampHours % 100);
 
 	// temperature
-	buffer += sprintf(buffer, "Temperature: %u [°C]\n", temp);
+	buffer += sprintf(buffer, "  Temperature: %u [°C]\n", temp);
 
 	// Time
-	buffer += sprintf(buffer, "Time: %02uh:%02um:%02us\n", clock.hours, clock.minutes, clock.seconds);
+	buffer += sprintf(buffer, "         Time: %02uh:%02um:%02us\n", clock.hours, clock.minutes, clock.seconds);
 
 	// Batt
-	if (m.inVoltageValue >= BATT_MIN && m.inVoltageValue <= BATT_MAX) {
-		buffer += sprintf(buffer, "Battery: %02u%%\n", (m.inVoltageValue - BATT_MIN) * 100 / (BATT_MAX - BATT_MIN));
-	} else {
-		buffer += sprintf(buffer, "Battery: !!!\n");
-	}
+	buffer += sprintf(buffer, "      Battery: %i%%\n", (((int16_t) m.inVoltageValue) - BATT_MIN) * 100 / (BATT_MAX - BATT_MIN));
 
 	sprintf(buffer, "Sent %u bytes.\n", strlen(this->transmitBuffer) + 16);
 	this->transmitDMA.start(strlen(this->transmitBuffer));

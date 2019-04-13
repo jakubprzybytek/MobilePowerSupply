@@ -16,9 +16,11 @@
 
 class EEPROMInterface {
 
+public:
+	uint16_t eepromWrites;
+
 private:
 	uint8_t eepromPageBuffer[EEPROM_PAGESIZE];
-	uint16_t eepromWrites;
 
 public:
 	void init();

@@ -9,16 +9,22 @@
 #ifndef __EVENTS_H__
 #define __EVENTS_H__
 
-enum Event { NOP, USART_MESSAGE_RECEIVED };
+enum Event { NOP, USART_MESSAGE_RECEIVED, ADC_DMA_A_FINISHED, ADC_DMA_B_FINISHED };
+
+#define MAX_EVENTS 10
 
 class Events {
 
+public:
+	uint16_t maxEventsListIndex;
+
 private:
-	Event event;
+	Event eventsList[MAX_EVENTS];
+	uint8_t eventsListIndex;
 
 public:
-	Event getEvent();
-	void setEvent(Event event);
+	void submit(Event event);
+	Event get();
 
 }; //Events
 

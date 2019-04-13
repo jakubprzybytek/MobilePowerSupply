@@ -18,7 +18,7 @@
 #include "../Peripheral/RTC.hpp"
 
 #define RECEIVE_BUFFER_SIZE 10
-#define TRANSMIT_BUFFER_SIZE 1024
+#define TRANSMIT_BUFFER_SIZE 600
 
 class SerialCom {
 

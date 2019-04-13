@@ -45,7 +45,7 @@ uint8_t secondsToReset;
 
 EEPROMInterface eeprom;
 
-volatile Event event = NOP;
+Events events;
 
 /* *****************
  * RTC: 1 sec INT (Low)
@@ -123,7 +123,7 @@ ISR (PORTF_INT0_vect) {
 ISR (USARTC1_RXC_vect) {
 	uint8_t data = USARTC1.DATA;
 	if (serialCom.processReceivedData(data)) {
-		event = USART_MESSAGE_RECEIVED;
+		events.submit(USART_MESSAGE_RECEIVED);
 	}
 }
 
@@ -131,8 +131,7 @@ ISR (USARTC1_RXC_vect) {
  * DMA CH0: DMA transaction finished interrupt (Medium)
  ***************** */
 ISR (DMA_CH0_vect) {
-	metter.stopA();
-	metter.storeReadoutA();
+	events.submit(ADC_DMA_A_FINISHED);
 	DMA.INTFLAGS = DMA_CH0TRNIF_bm;
 }
 
@@ -140,8 +139,7 @@ ISR (DMA_CH0_vect) {
  * DMA CH1: DMA transaction finished interrupt (Medium)
  ***************** */
 ISR (DMA_CH1_vect) {
-	metter.stopB();
-	metter.storeReadoutB();
+	events.submit(ADC_DMA_B_FINISHED);
 	DMA.INTFLAGS = DMA_CH1TRNIF_bm;
 }
 
@@ -217,6 +215,7 @@ int main(void)
 	drawStatusBar(true);
 
     while (1) {
+		Event event = events.get();
 		if (event == USART_MESSAGE_RECEIVED) {
 			char* command = serialCom.getReceivedData();
 			switch (command[0]) {
@@ -227,11 +226,24 @@ int main(void)
 					resetStatus();
 					serialCom.sendMessage("Clock and counters are reset!\n");
 					break;
+				case 'd':
+					char buffer[100];
+					sprintf(buffer, "Debug: EEPROM writes - %u, max waiting events - %u\n", eeprom.eepromWrites, events.maxEventsListIndex);
+					serialCom.sendMessage(buffer);
+					break;
 				default:
 					serialCom.sendHelp();
 			}
-			
-			event = NOP;
+		}
+
+		if (event == ADC_DMA_A_FINISHED) {
+			metter.stopA();
+			metter.storeReadoutA();
+		}
+
+		if (event == ADC_DMA_B_FINISHED) {
+			metter.stopB();
+			metter.storeReadoutB();
 		}
 	}
 }
