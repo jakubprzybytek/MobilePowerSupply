@@ -12,17 +12,19 @@ class DMAC {
 
 private:
 	DMA_CH_t* channel;
+	uint8_t burstLen;
 
 public:
 	DMAC(DMA_CH_t* channel) : channel(channel) {};
 	
 	static void enable();
 
-	void init(register16_t* sourceAddress, void* targetAddress, uint8_t TRIGSRC, uint8_t burstLen, uint8_t burstLenBm, uint16_t blockSize);
+	void init(void* sourceAddress, void* targetAddress, uint8_t TRIGSRC, uint8_t burstLen, uint8_t burstLenBm, uint16_t blockSize);
 	void initSourceReloadOnBurstDestReloadOnTransaction();
 	void initSourceReloadOnTransactionDestReloadOnBurst();
 
 	void start();
+	void start(uint16_t blockSize);
 };
 
 #endif /* DMA_H_ */

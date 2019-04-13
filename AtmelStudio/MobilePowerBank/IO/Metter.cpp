@@ -52,14 +52,17 @@ void Metter::init() {
 	adcA.init();
 	adcB.init();
 
+	// TODO: malloc -> static initialization
 	this->readsBufferA = (uint16_t*) malloc(sizeof(uint16_t) * ADC_CHANNELS * READS_TO_AVARAGE);
 	this->readsBufferB = (uint16_t*) malloc(sizeof(uint16_t) * ADC_CHANNELS * READS_TO_AVARAGE);
 
 	DMAC::enable();
 
-	dmaA.init(&ADCA.CH0RES, this->readsBufferA, 0x13, sizeof(uint16_t) * ADC_CHANNELS, DMA_CH_BURSTLEN1_bm | DMA_CH_BURSTLEN0_bm, READS_TO_AVARAGE); // burst mode 8B = 4 x ADC.RES(2B), block size = READS_TO_AVARAGE
+	// TODO: replace burstlen
+	// TODO: 0x13 to const
+	dmaA.init((void*)&ADCA.CH0RES, this->readsBufferA, 0x13, sizeof(uint16_t) * ADC_CHANNELS, DMA_CH_BURSTLEN1_bm | DMA_CH_BURSTLEN0_bm, READS_TO_AVARAGE); // burst mode 8B = 4 x ADC.RES(2B), block size = READS_TO_AVARAGE
 	dmaA.initSourceReloadOnBurstDestReloadOnTransaction();
-	dmaB.init(&ADCB.CH0RES, this->readsBufferB, 0x23, sizeof(uint16_t) * ADC_CHANNELS, DMA_CH_BURSTLEN1_bm | DMA_CH_BURSTLEN0_bm, READS_TO_AVARAGE); // burst mode 8B = 4 x ADC.RES(2B), block size = READS_TO_AVARAGE
+	dmaB.init((void*)&ADCB.CH0RES, this->readsBufferB, 0x23, sizeof(uint16_t) * ADC_CHANNELS, DMA_CH_BURSTLEN1_bm | DMA_CH_BURSTLEN0_bm, READS_TO_AVARAGE); // burst mode 8B = 4 x ADC.RES(2B), block size = READS_TO_AVARAGE
 	dmaB.initSourceReloadOnBurstDestReloadOnTransaction();
 }
 

@@ -147,6 +147,13 @@ ISR (DMA_CH1_vect) {
 }
 
 /* *****************
+ * DMA CH2: DMA transaction finished interrupt (Medium)
+ ***************** */
+ISR (DMA_CH2_vect) {
+	DMA.INTFLAGS = DMA_CH2TRNIF_bm;
+}
+
+/* *****************
  * ACB: Falling edge detected in input voltage (High)
 ***************** */
 ISR (ACB_AC0_vect) {
@@ -176,18 +183,6 @@ void drawStatusBar(bool firstDraw) {
 	}
 }
 
-void sendChar(char c) {
-	while( !(USARTC1.STATUS & USART_DREIF_bm) ); //Wait until DATA buffer is empty
-	USARTC1.DATA = c;
-}
-
-void sendString(char *text) {
-	while (*text) {
-		sendChar(*text++);
-	}
-}
-
-
 int main(void)
 {
 	Timer displayTimer(&TCC0, 200);
@@ -195,8 +190,8 @@ int main(void)
 
 	LED_INIT
 	screen.init(true);
-	serialCom.init();
 	metter.init();
+	serialCom.init();
 	clock.init();
 	displayTimer.Init(TC_OVFINTLVL_LO_gc);
 	buttonTimer.Init(TC_OVFINTLVL_MED_gc);
@@ -219,7 +214,7 @@ int main(void)
     while (1) {
 		if (event == USART_MESSAGE_RECEIVED) {
 			serialCom.getReceivedData();
-			sendString("Hello world\n");
+			serialCom.sendData(metter.measurements, clock, ampsConsumed, temp);
 			event = NOP;
 		}
 	}

@@ -12,7 +12,9 @@ void DMAC::enable() {
 	DMA.CTRL = DMA_ENABLE_bm;
 }
 
-void DMAC::init(register16_t* sourceAddress, void* targetAddress, uint8_t TRIGSRC, uint8_t burstLen, uint8_t burstLenBm, uint16_t blockSize) {
+void DMAC::init(void* sourceAddress, void* targetAddress, uint8_t TRIGSRC, uint8_t burstLen, uint8_t burstLenBm, uint16_t blockSize) {
+	this->burstLen = burstLen;
+
 	channel->CTRLA = DMA_CH_SINGLE_bm | burstLenBm; // Single transaction triggered by DMAC::start()
 	channel->TRFCNT = burstLen * blockSize;
 	channel->TRIGSRC = TRIGSRC;
@@ -36,4 +38,9 @@ void DMAC::initSourceReloadOnTransactionDestReloadOnBurst() {
 
 void DMAC::start() {
 	channel->CTRLA |= DMA_CH_ENABLE_bm;
+}
+
+void DMAC::start(uint16_t blockSize) {
+	channel->TRFCNT = burstLen * blockSize;
+	start();
 }

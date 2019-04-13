@@ -12,8 +12,10 @@
 
 class USART {
 
-private:
+public:
 	USART_t* usart;
+
+private:
 	PORT_t* port;
 	uint8_t txdPinBm;
 
