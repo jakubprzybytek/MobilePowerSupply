@@ -39,8 +39,9 @@ public:
 	bool processReceivedData(uint8_t data);
 	char* getReceivedData();
 
+	void sendMessage(const char* message);
+	void sendHelp();
 	void sendData(Measurements& measurements, Clock& clock, uint32_t ampsConsumed, uint8_t temp);
-
 }; //SerialCom
 
 #endif //__SERIALCOM_H__

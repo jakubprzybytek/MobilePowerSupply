@@ -100,8 +100,7 @@ ISR (TCD0_OVF_vect) {
 		if (secondsToReset == 0) {
 			buttonTimer.Disable();
 
-			clock.reset();
-			ampsConsumed = 0;
+			resetStatus();
 
 			if (screen.isActive()) {
 				drawStatusBar(true);
@@ -150,6 +149,7 @@ ISR (DMA_CH1_vect) {
  * DMA CH2: DMA transaction finished interrupt (Medium)
  ***************** */
 ISR (DMA_CH2_vect) {
+	// TODO: disabe INT
 	DMA.INTFLAGS = DMA_CH2TRNIF_bm;
 }
 
@@ -183,6 +183,11 @@ void drawStatusBar(bool firstDraw) {
 	}
 }
 
+void resetStatus() {
+	clock.reset();
+	ampsConsumed = 0;
+}
+
 int main(void)
 {
 	Timer displayTimer(&TCC0, 200);
@@ -213,8 +218,19 @@ int main(void)
 
     while (1) {
 		if (event == USART_MESSAGE_RECEIVED) {
-			serialCom.getReceivedData();
-			serialCom.sendData(metter.measurements, clock, ampsConsumed, temp);
+			char* command = serialCom.getReceivedData();
+			switch (command[0]) {
+				case 's':
+					serialCom.sendData(metter.measurements, clock, ampsConsumed, temp);
+					break;
+				case 'r':
+					resetStatus();
+					serialCom.sendMessage("Clock and counters are reset!\n");
+					break;
+				default:
+					serialCom.sendHelp();
+			}
+			
 			event = NOP;
 		}
 	}

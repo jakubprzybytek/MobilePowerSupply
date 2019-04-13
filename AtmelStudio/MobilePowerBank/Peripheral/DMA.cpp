@@ -27,7 +27,7 @@ void DMAC::init(void* sourceAddress, void* targetAddress, uint8_t TRIGSRC, uint8
 
 	channel->CTRLB = DMA_CH_TRNINTLVL1_bm; // medium interrupt
 }
-
+// TODO: make it better
 void DMAC::initSourceReloadOnBurstDestReloadOnTransaction() {
 	channel->ADDRCTRL = DMA_CH_SRCRELOAD1_bm | DMA_CH_SRCDIR0_bm | DMA_CH_DESTRELOAD1_bm | DMA_CH_DESTRELOAD0_bm | DMA_CH_DESTDIR0_bm;
 }

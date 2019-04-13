@@ -11,9 +11,6 @@
 #define MAIN_PATTERN 0xee
 #define MAIN_DIM_PATTERN 0x44
 
-#define BATT_MIN 223
-#define BATT_MAX 294
-
 char buffer[22];
 
 void Screen::init (bool clean) {

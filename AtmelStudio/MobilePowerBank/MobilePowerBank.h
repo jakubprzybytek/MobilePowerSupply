@@ -16,5 +16,6 @@
 #define LED_TOGGLE	PORTF.OUTTGL = PIN2_bm;
 
 void drawStatusBar(bool firstDraw);
+void resetStatus();
 
 #endif /* MOBILEPOWERBANK_H_ */

@@ -14,6 +14,9 @@
 #define ADC_CHANNELS 4
 #define READS_TO_AVARAGE 128
 
+#define BATT_MIN 223
+#define BATT_MAX 294
+
 struct Measurements {
 	uint16_t inVoltageValue;
 	uint16_t inCurrentValue;
