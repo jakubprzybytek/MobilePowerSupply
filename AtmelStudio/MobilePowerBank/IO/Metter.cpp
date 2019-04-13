@@ -4,8 +4,6 @@
  * Created: 2018-04-21 19:51:25
  *  Author: Rodos
  */ 
-#include <stdlib.h>
-
 #include "Metter.h"
 
 #define MAX(a,b) ((a) > (b) ? (a) : (b))
@@ -52,18 +50,12 @@ void Metter::init() {
 	adcA.init();
 	adcB.init();
 
-	// TODO: malloc -> static initialization
-	this->readsBufferA = (uint16_t*) malloc(sizeof(uint16_t) * ADC_CHANNELS * READS_TO_AVARAGE);
-	this->readsBufferB = (uint16_t*) malloc(sizeof(uint16_t) * ADC_CHANNELS * READS_TO_AVARAGE);
-
 	DMAC::enable();
 
-	// TODO: replace burstlen
-	// TODO: 0x13 to const
-	dmaA.init((void*)&ADCA.CH0RES, this->readsBufferA, 0x13, sizeof(uint16_t) * ADC_CHANNELS, DMA_CH_BURSTLEN1_bm | DMA_CH_BURSTLEN0_bm, READS_TO_AVARAGE); // burst mode 8B = 4 x ADC.RES(2B), block size = READS_TO_AVARAGE
-	dmaA.initSourceReloadOnBurstDestReloadOnTransaction();
-	dmaB.init((void*)&ADCB.CH0RES, this->readsBufferB, 0x23, sizeof(uint16_t) * ADC_CHANNELS, DMA_CH_BURSTLEN1_bm | DMA_CH_BURSTLEN0_bm, READS_TO_AVARAGE); // burst mode 8B = 4 x ADC.RES(2B), block size = READS_TO_AVARAGE
-	dmaB.initSourceReloadOnBurstDestReloadOnTransaction();
+	dmaA.init((void*)&ADCA.CH0RES, this->readsBufferA, DMA_CH_TRIGSRC_ADCA_CH3_gc, sizeof(uint16_t) * ADC_CHANNELS, DMA_CH_BURSTLEN_8BYTE_gc, READS_TO_AVARAGE); // burst mode 8B = 4 x ADC.RES(2B), block size = READS_TO_AVARAGE
+	dmaA.initAddressBehaviour(DMA_CH_SRCRELOAD_BURST_gc | DMA_CH_SRCDIR_INC_gc | DMA_CH_DESTRELOAD_TRANSACTION_gc | DMA_CH_DESTDIR_INC_gc);
+	dmaB.init((void*)&ADCB.CH0RES, this->readsBufferB, DMA_CH_TRIGSRC_ADCB_CH3_gc, sizeof(uint16_t) * ADC_CHANNELS, DMA_CH_BURSTLEN_8BYTE_gc, READS_TO_AVARAGE); // burst mode 8B = 4 x ADC.RES(2B), block size = READS_TO_AVARAGE
+	dmaB.initAddressBehaviour(DMA_CH_SRCRELOAD_BURST_gc | DMA_CH_SRCDIR_INC_gc | DMA_CH_DESTRELOAD_TRANSACTION_gc | DMA_CH_DESTDIR_INC_gc);
 }
 
 void Metter::toggleInput() {

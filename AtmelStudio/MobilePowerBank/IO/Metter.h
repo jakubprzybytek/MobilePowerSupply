@@ -43,8 +43,8 @@ private:
 
 	uint8_t activeADC;
 
-	uint16_t* readsBufferA;
-	uint16_t* readsBufferB;
+	uint16_t readsBufferA[sizeof(uint16_t) * ADC_CHANNELS * READS_TO_AVARAGE];
+	uint16_t readsBufferB[sizeof(uint16_t) * ADC_CHANNELS * READS_TO_AVARAGE];
 
 public:
 	Measurements measurements;

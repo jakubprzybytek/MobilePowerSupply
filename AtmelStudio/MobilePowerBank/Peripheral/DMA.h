@@ -20,6 +20,7 @@ public:
 	static void enable();
 
 	void init(void* sourceAddress, void* targetAddress, uint8_t TRIGSRC, uint8_t burstLen, uint8_t burstLenBm, uint16_t blockSize);
+	void initAddressBehaviour(uint8_t ctrl);
 	void initSourceReloadOnBurstDestReloadOnTransaction();
 	void initSourceReloadOnTransactionDestReloadOnBurst();
 

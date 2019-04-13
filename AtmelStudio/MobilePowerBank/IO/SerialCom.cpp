@@ -14,7 +14,7 @@ void SerialCom::init() {
 	this->usart.init();
 
 	this->transmitDMA.init(this->transmitBuffer, (void*)&(this->usart.usart->DATA), DMA_CH_TRIGSRC_USARTC1_DRE_gc, 1, DMA_CH_BURSTLEN_1BYTE_gc, 1);
-	this->transmitDMA.initSourceReloadOnTransactionDestReloadOnBurst();
+	this->transmitDMA.initAddressBehaviour(DMA_CH_SRCRELOAD_TRANSACTION_gc | DMA_CH_SRCDIR_INC_gc | DMA_CH_DESTRELOAD_BURST_gc | DMA_CH_DESTDIR_FIXED_gc);
 }
 
 bool SerialCom::processReceivedData(uint8_t data) {
