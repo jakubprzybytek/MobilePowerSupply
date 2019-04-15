@@ -97,7 +97,7 @@ void Screen::drawTime(uint8_t days, uint8_t hours, uint8_t minutes, uint8_t seco
 	sprintf(buffer, "t");
 	GUI_print3(buffer, 21, 54, TEMPLATE_PATTERN);
 
-	sprintf(buffer, "%u:%02u:%02u", hours, minutes, seconds);
+	sprintf(buffer, "%02u:%02u:%02u", hours, minutes, seconds);
 	GUI_print3(buffer, 24, 54, 0xee);
 }
 
