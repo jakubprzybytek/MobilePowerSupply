@@ -11,10 +11,10 @@
 #include "../Peripheral/eeprom_driver.h"
 #include "../Peripheral/RTC.hpp"
 
-#define EEPROM_PAGE 0
-#define EEPROM_DATA_VERSION 4
+#define STATS_EEPROM_PAGE 0
+#define STATS_EEPROM_DATA_VERSION 4
 
-class EEPROMInterface {
+class StatsMemory {
 
 public:
 	uint16_t eepromWrites;

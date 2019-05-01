@@ -41,7 +41,7 @@ public:
 
 	void sendMessage(const char* message);
 	void sendHelp();
-	void sendData(Measurements& measurements, Clock& clock, uint32_t ampsConsumed, uint8_t temp);
+	void sendData(char names[6][5], Measurements& measurements, Clock& clock, uint32_t ampsConsumed, uint8_t temp);
 }; //SerialCom
 
 #endif //__SERIALCOM_H__

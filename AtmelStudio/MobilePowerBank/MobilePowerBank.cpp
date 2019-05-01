@@ -10,6 +10,7 @@
 #include <util/delay.h>
 
 #include <stdio.h>
+#include <string.h>
 
 #include "MobilePowerBank.h"
 
@@ -27,10 +28,13 @@
 
 #include "Tools/Timer.hpp"
 #include "Tools/Switch.hpp"
-#include "Tools/EEPROM.hpp"
+#include "Tools/StatsMemory.hpp"
+#include "Tools/NamesMemory.h"
 
 Events events;
 Clock clock;
+
+char names[6][5] = { "In  ", "Out1", "Out2", "Out3", "Out4", "Out5" };
 
 SerialCom serialCom;
 Screen screen;
@@ -38,11 +42,14 @@ Screen screen;
 Metter metter;
 TC74 termometer;
 
-EEPROMInterface eeprom;
+StatsMemory statsMemory;
+NamesMemory namesMemory;
 
 uint32_t ampsConsumed; // per second
 uint8_t temp;
 uint8_t secondsToReset;
+
+char serialComBuffer[100];
 
 /* *****************
  * RTC: 1 sec INT (Low)
@@ -114,7 +121,7 @@ ISR (DMA_CH2_vect) {
 ISR (ACB_AC0_vect) {
 	screen.shutdown();
 	LED_SET
-	eeprom.storeData(clock, &ampsConsumed);
+	statsMemory.storeData(clock, &ampsConsumed);
 }
 
 void drawStatusBar(bool firstDraw) {
@@ -123,19 +130,16 @@ void drawStatusBar(bool firstDraw) {
 		screen.drawSecondsToReset(secondsToReset);
 		return;
 	}
-	
-	if (clock.seconds % 10 == 0 || firstDraw) { // every ten seconds
+
+	if ((clock.seconds % 10 == 0)) { // every ten seconds
 		temp = termometer.readTemperature();
+		screen.drawTemperature(temp);
+	}
+	if ((clock.seconds + 5) % 10 == 0 || firstDraw) {
+		screen.drawAmpsConsumed(ampsConsumed);
 	}
 
 	screen.drawTime(clock.days, clock.hours, clock.minutes, clock.seconds);
-
-	if (clock.seconds % 10 == 0 || firstDraw) {
-		screen.drawTemperature(temp);
-	}
-	if ((clock.seconds + 5) % 10 == 0) {
-		screen.drawAmpsConsumed(ampsConsumed);
-	}
 }
 
 void resetStatus() {
@@ -155,7 +159,11 @@ int main(void)
 	uint16_t buttonCounter = 0;
 
 	LED_INIT
-	screen.init(true);
+
+	statsMemory.loadData(clock, &ampsConsumed);
+	namesMemory.loadData(names);
+
+	screen.init(names, true);
 	metter.init();
 	serialCom.init();
 	clock.init();
@@ -168,7 +176,6 @@ int main(void)
 	displayTimer.Enable();
 	inputPowerComparator.start();
 
-	eeprom.loadData(clock, &ampsConsumed);
 	clock.start();
 
 	// enable interrupts
@@ -214,34 +221,35 @@ int main(void)
 		if (event == BUTTON_CHECK) { // event triggered 39 times per second as long as the button is pressed
 			LED_TOGGLE
 
-			if (button.isUp()) {
+			if (button.isUp()) { // button is released
 				buttonTimer.Disable();
-
-				if (secondsToReset == 5) { // quick button press: toggle screen
-					if (screen.isActive()) {
+			}
+			
+			if (screen.isActive()) {
+				if (button.isUp()) { // button is released
+					if (secondsToReset == 5) { // quick button press means to toggle screen
 						screen.shutdown();
 					} else {
-						screen.init(false);
-					}
-				}
-
-				secondsToReset = 0;
-
-				if (screen.isActive()) {
-					drawStatusBar(true);
-				}
-			} else { // button still pressed
-				buttonCounter++;
-				secondsToReset = 5 - MIN(buttonCounter/39, 5);
-
-				if (secondsToReset == 0) {
-					buttonTimer.Disable();
-
-					resetStatus();
-
-					if (screen.isActive()) {
 						drawStatusBar(true);
 					}
+
+					secondsToReset = 0;
+
+				} else { // button still pressed
+					buttonCounter++;
+					secondsToReset = 5 - MIN(buttonCounter/39, 5);
+
+					if (secondsToReset == 0) {
+						buttonTimer.Disable();
+
+						resetStatus();
+						drawStatusBar(true);
+					}
+				}
+			} else {
+				if (button.isUp()) { // releasing button when screen is disabled always just turns it on
+					screen.init(names, false);
+					drawStatusBar(true);
 				}
 			}
 		} else
@@ -249,19 +257,51 @@ int main(void)
 		if (event == USART_MESSAGE_RECEIVED) {
 			char* command = serialCom.getReceivedData();
 			switch (command[0]) {
-				case 's':
-				serialCom.sendData(metter.measurements, clock, ampsConsumed, temp);
+			case 's':
+				serialCom.sendData(names, metter.measurements, clock, ampsConsumed, temp);
 				break;
-				case 'r':
+			case 'r':
 				resetStatus();
 				serialCom.sendMessage("Clock and counters are reset!\n");
 				break;
-				case 'd':
-				char buffer[100];
-				sprintf(buffer, "Debug: EEPROM writes - %u, max waiting events - %u\n", eeprom.eepromWrites, events.maxEventsListIndex);
-				serialCom.sendMessage(buffer);
+			case 'i':
+				if (command[1] == ' ' && strlen(command) > 2 && strlen(command) <= 6) {
+
+					char* newName = command + 2;
+					strcpy(names[0], newName);
+					namesMemory.storeData(names);
+					
+					screen.drawTemplate(names);
+					
+					sprintf(serialComBuffer, "New name for input: %s\n", newName);
+					serialCom.sendMessage(serialComBuffer);
+				}
 				break;
-				default:
+			case 'o':
+				if (strlen(command) > 3) {
+
+					uint8_t inputIndex = command[1] - '0';
+					if (inputIndex >= 1 && inputIndex <= 5) {
+
+						if (command[2] == ' ' && strlen(command) <= 7) {
+
+							char* newName = command + 3;
+							strcpy(names[inputIndex], newName);
+							namesMemory.storeData(names);
+
+							screen.drawTemplate(names);
+
+							sprintf(serialComBuffer, "New name for output %u: %s\n", inputIndex, newName);
+							serialCom.sendMessage(serialComBuffer);
+						}
+					}
+				}
+				break;
+			case 'd':
+				sprintf(serialComBuffer, "Debug\n EEPROM writes: %u (stats), %u (names)\n Max waiting events: %u\n", statsMemory.eepromWrites, namesMemory.eepromWrites, events.maxEventsListIndex);
+				serialCom.sendMessage(serialComBuffer);
+				break;
+			default:
 				serialCom.sendHelp();
 			}
 		}

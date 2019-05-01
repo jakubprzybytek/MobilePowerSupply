@@ -267,10 +267,16 @@
     <Compile Include="Screen.hpp">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Tools\EEPROM.cpp">
+    <Compile Include="Tools\NamesMemory.cpp">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Tools\EEPROM.hpp">
+    <Compile Include="Tools\NamesMemory.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Tools\StatsMemory.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Tools\StatsMemory.hpp">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="Tools\Switch.cpp">

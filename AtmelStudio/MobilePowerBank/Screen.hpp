@@ -17,11 +17,11 @@
 class Screen {
 
 public:
-	void init(bool clean);
+	void init(char names[][5], bool clean);
 	void shutdown();
 	bool isActive();
 
-	void drawTemplate();
+	void drawTemplate(char names[][5]);
 	void drawElectricParams(Measurements& measurements);
 	void drawTime(uint8_t days, uint8_t hours, uint8_t minutes, uint8_t seconds);
 	void drawAmpsConsumed(uint32_t ampsConsumed);
